@@ -54,5 +54,7 @@ jobs:
       - run: bun install
       - run: bunx vite build
         working-directory: rag/apps/web
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
       - run: bunx wrangler pages deploy dist --project-name=rag-demo-web
         working-directory: rag/apps/web

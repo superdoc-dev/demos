@@ -26,10 +26,15 @@ export type DocumentInfo = {
 	filePath: string;
 };
 
+const API_BASE = import.meta.env.VITE_API_URL ?? "";
+
 export async function ingestDocument(file: File): Promise<IngestResult> {
 	const fd = new FormData();
 	fd.append("file", file);
-	const res = await fetch("/api/upload", { method: "POST", body: fd });
+	const res = await fetch(`${API_BASE}/api/upload`, {
+		method: "POST",
+		body: fd,
+	});
 	if (!res.ok) {
 		const body = await res.json().catch(() => ({}));
 		throw new Error(body.error ?? `Ingest failed (${res.status})`);
@@ -38,7 +43,7 @@ export async function ingestDocument(file: File): Promise<IngestResult> {
 }
 
 export async function queryDocuments(question: string): Promise<QueryResult> {
-	const res = await fetch("/api/query", {
+	const res = await fetch(`${API_BASE}/api/query`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({ question }),
@@ -51,9 +56,10 @@ export async function queryDocuments(question: string): Promise<QueryResult> {
 }
 
 export async function listDocuments(): Promise<DocumentInfo[]> {
-	const res = await fetch("/api/documents");
+	const res = await fetch(`${API_BASE}/api/documents`);
 	if (!res.ok) return [];
 	return res.json();
 }
 
-export const getDocumentFileUrl = (id: number) => `/api/documents/${id}/file`;
+export const getDocumentFileUrl = (id: number) =>
+	`${API_BASE}/api/documents/${id}/file`;
