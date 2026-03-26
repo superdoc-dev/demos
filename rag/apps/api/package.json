@@ -1,0 +1,19 @@
+{
+	"name": "@rag-demo/api",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "wrangler dev",
+		"deploy": "wrangler deploy",
+		"db:create": "wrangler d1 create rag-demo",
+		"db:migrate": "wrangler d1 execute rag-demo --file=schema.sql"
+	},
+	"dependencies": {
+		"@anthropic-ai/sdk": "^0.30.0",
+		"@rag-demo/shared": "workspace:*"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20250326.0",
+		"wrangler": "^4.0.0"
+	}
+}

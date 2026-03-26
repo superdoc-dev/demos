@@ -1,0 +1,29 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.4.9/schema.json",
+	"files": {
+		"includes": [
+			"apps/*/src/**",
+			"apps/*/index.ts",
+			"apps/*/index.html",
+			"apps/*/*.tsx",
+			"apps/*/components/**",
+			"apps/*/lib/**",
+			"apps/*/*.css",
+			"apps/*/*.json",
+			"packages/**"
+		]
+	},
+	"linter": {
+		"rules": {
+			"complexity": {
+				"noImportantStyles": "off"
+			},
+			"suspicious": {
+				"noExplicitAny": "off"
+			},
+			"a11y": {
+				"noSvgWithoutTitle": "off"
+			}
+		}
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"name": "@rag-demo/web",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"dev:bun": "bun --hot index.ts",
+		"build": "vite build",
+		"preview": "vite preview",
+		"deploy": "bun run build && wrangler pages deploy dist --project-name=rag-demo-web"
+	},
+	"dependencies": {
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"superdoc": "^1.24.0-next.15"
+	},
+	"devDependencies": {
+		"@types/react": "^19.0.0",
+		"@types/react-dom": "^19.0.0",
+		"@vitejs/plugin-react": "^4.3.0",
+		"vite": "^6.0.0",
+		"wrangler": "^4.0.0"
+	}
+}

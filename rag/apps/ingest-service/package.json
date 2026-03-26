@@ -1,0 +1,12 @@
+{
+	"name": "@rag-demo/ingest-service",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"start": "bun run index.ts",
+		"dev": "bun --hot index.ts"
+	},
+	"dependencies": {
+		"@rag-demo/shared": "workspace:*"
+	}
+}

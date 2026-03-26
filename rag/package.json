@@ -1,0 +1,20 @@
+{
+	"name": "rag-demo",
+	"private": true,
+	"workspaces": ["apps/*", "packages/*"],
+	"scripts": {
+		"dev": "bun run dev:api & bun run dev:web",
+		"dev:api": "bun run --cwd apps/api dev",
+		"dev:web": "bun run --cwd apps/web dev",
+		"ingest": "bun apps/ingest/index.ts",
+		"build:web": "bun run --cwd apps/web build",
+		"deploy:api": "bun run --cwd apps/api deploy",
+		"deploy:web": "bun run --cwd apps/web deploy",
+		"deploy": "bun run deploy:api && bun run deploy:web",
+		"lint": "biome check .",
+		"format": "biome check --write ."
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.9"
+	}
+}

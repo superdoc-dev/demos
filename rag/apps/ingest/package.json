@@ -1,0 +1,8 @@
+{
+	"name": "@rag-demo/ingest",
+	"private": true,
+	"type": "module",
+	"dependencies": {
+		"@rag-demo/shared": "workspace:*"
+	}
+}

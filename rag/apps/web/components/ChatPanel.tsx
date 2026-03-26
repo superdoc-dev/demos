@@ -1,0 +1,122 @@
+import { useEffect, useRef, useState } from "react";
+import { type Citation, queryDocuments } from "../lib/api";
+import { ChatMessage } from "./ChatMessage";
+
+type Message = {
+	id: number;
+	role: "user" | "assistant";
+	content: string;
+	citations?: Citation[];
+	loading?: boolean;
+};
+
+type Props = { onCitationClick: (citation: Citation) => void };
+
+export function ChatPanel({ onCitationClick }: Props) {
+	const [messages, setMessages] = useState<Message[]>([]);
+	const [input, setInput] = useState("");
+	const [loading, setLoading] = useState(false);
+	const bottomRef = useRef<HTMLDivElement>(null);
+	const nextIdRef = useRef(0);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: scroll on new messages
+	useEffect(() => {
+		bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+	}, [messages.length]);
+
+	async function handleSend() {
+		const q = input.trim();
+		if (!q || loading) return;
+
+		const userMsg: Message = {
+			id: nextIdRef.current++,
+			role: "user",
+			content: q,
+		};
+		const loadingMsg: Message = {
+			id: nextIdRef.current++,
+			role: "assistant",
+			content: "",
+			loading: true,
+		};
+
+		setMessages((m) => [...m, userMsg, loadingMsg]);
+		setInput("");
+		setLoading(true);
+
+		try {
+			const result = await queryDocuments(q);
+			setMessages((m) =>
+				m.map((msg) =>
+					msg.id === loadingMsg.id
+						? {
+								...msg,
+								content: result.answer,
+								citations: result.citations,
+								loading: false,
+							}
+						: msg,
+				),
+			);
+		} catch (err) {
+			setMessages((m) =>
+				m.map((msg) =>
+					msg.id === loadingMsg.id
+						? {
+								...msg,
+								content: `Error: ${err instanceof Error ? err.message : "Unknown"}`,
+								loading: false,
+							}
+						: msg,
+				),
+			);
+		} finally {
+			setLoading(false);
+		}
+	}
+
+	return (
+		<div className="chat-sidebar">
+			<div className="chat-header">Document Q&A</div>
+			<div className="chat-body">
+				{messages.length === 0 && (
+					<div className="chat-empty">
+						<span className="chat-empty-title">Ask a question</span>
+						<span className="chat-empty-hint">
+							SuperDoc extracts text, comments, and tracked changes for
+							AI-powered search.
+						</span>
+					</div>
+				)}
+				{messages.map((msg) => (
+					<ChatMessage
+						key={msg.id}
+						role={msg.role}
+						content={msg.content}
+						citations={msg.citations}
+						loading={msg.loading}
+						onCitationClick={onCitationClick}
+					/>
+				))}
+				<div ref={bottomRef} />
+			</div>
+			<div className="chat-input">
+				<input
+					placeholder="Ask about your documents..."
+					value={input}
+					onChange={(e) => setInput(e.target.value)}
+					onKeyDown={(e) => e.key === "Enter" && handleSend()}
+					disabled={loading}
+				/>
+				<button
+					type="button"
+					className="btn-send"
+					onClick={handleSend}
+					disabled={loading || !input.trim()}
+				>
+					Send
+				</button>
+			</div>
+		</div>
+	);
+}
