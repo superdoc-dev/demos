@@ -59,17 +59,35 @@ export default {
 				return handleQuery(request, env);
 			}
 
-			// GET /api/documents — list documents
+			// GET /api/documents — list documents + indexing status
 			if (url.pathname === "/api/documents" && request.method === "GET") {
 				const d1 = createD1Client(env.DB);
-				const docs = await d1.listDocuments();
-				return json(
-					docs.map((d) => ({
+				const vectorize = createVectorizeClient(env.VECTORIZE);
+				const [docs, vectorCount, chunkCount] = await Promise.all([
+					d1.listDocuments(),
+					vectorize.vectorCount(),
+					d1.chunkCount(),
+				]);
+				const TIMEOUT_MS = 2 * 60 * 1000;
+				const now = Date.now();
+				for (const d of docs) {
+					if (d.status === "processing") {
+						const created = new Date(d.createdAt).getTime();
+						if (now - created > TIMEOUT_MS) {
+							await d1.updateDocumentStatus(d.id, "error");
+							d.status = "error";
+						}
+					}
+				}
+				return json({
+					documents: docs.map((d) => ({
 						id: d.id,
 						filename: d.filename,
 						status: d.status,
 					})),
-				);
+					vectorCount,
+					chunkCount,
+				});
 			}
 
 			// DELETE /api/documents/:id — remove document, chunks, vectors, and file
@@ -326,6 +344,14 @@ async function handleQuery(request: Request, env: Env): Promise<Response> {
 	console.log(
 		`[query] D1 returned ${chunks.length} chunks for ${chunkIds.length} IDs`,
 	);
+
+	if (chunks.length === 0) {
+		return json({
+			answer:
+				"Documents are still being indexed. Please try again in a moment.",
+			citations: [],
+		});
+	}
 
 	const context = chunks
 		.map(

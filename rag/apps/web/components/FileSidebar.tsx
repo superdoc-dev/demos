@@ -11,7 +11,7 @@ type FileEntry = {
 	filename: string;
 	hash?: string;
 	docId?: number;
-	status: "ready" | "queued" | "extracting" | "deleting" | "error";
+	status: "ready" | "queued" | "extracting" | "indexing" | "deleting" | "error";
 	detail?: string;
 };
 
@@ -26,29 +26,63 @@ async function fileHash(file: File): Promise<string> {
 type Props = {
 	activeDocId: number | null;
 	onSelectDoc: (doc: DocumentInfo) => void;
+	onReadyChange: (hasReady: boolean) => void;
 };
 
 let entrySeq = 0;
 
-export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
+export function FileSidebar({
+	activeDocId,
+	onSelectDoc,
+	onReadyChange,
+}: Props) {
 	const [entries, setEntries] = useState<FileEntry[]>([]);
 	const [documents, setDocuments] = useState<DocumentInfo[]>([]);
+	const [vectorCount, setVectorCount] = useState(0);
+	const [chunkCount, setChunkCount] = useState(0);
 	const fileRef = useRef<HTMLInputElement>(null);
 
 	const refreshDocs = useCallback(async () => {
-		const docs = await listDocuments();
-		setDocuments(docs);
+		const resp = await listDocuments();
+		setDocuments(resp.documents);
+		setVectorCount(resp.vectorCount);
+		setChunkCount(resp.chunkCount);
 		setEntries((prev) => {
 			const uploading = prev.filter(
-				(e) => e.status === "queued" && !docs.some((d) => d.id === e.docId),
+				(e) =>
+					e.status === "queued" &&
+					!resp.documents.some((d) => d.id === e.docId),
 			);
-			const fromApi: FileEntry[] = docs.map((d) => ({
-				key: `doc-${d.id}`,
-				filename: d.filename,
-				docId: d.id,
-				status: d.status === "ready" ? "ready" : "extracting",
-			}));
-			return [...uploading, ...fromApi];
+			const deleting = prev.filter((e) => e.status === "deleting");
+			const deletingIds = new Set(deleting.map((e) => e.docId));
+			const fromApi: FileEntry[] = resp.documents
+				.filter((d) => !deletingIds.has(d.id))
+				.map((d) => {
+					let status: FileEntry["status"];
+					let detail: string | undefined;
+					if (d.status === "error") {
+						status = "error";
+						detail = "Processing failed";
+					} else if (
+						d.status === "ready" &&
+						resp.chunkCount > 0 &&
+						resp.vectorCount < resp.chunkCount
+					) {
+						status = "indexing";
+					} else if (d.status === "ready") {
+						status = "ready";
+					} else {
+						status = "extracting";
+					}
+					return {
+						key: `doc-${d.id}`,
+						filename: d.filename,
+						docId: d.id,
+						status,
+						detail,
+					};
+				});
+			return [...uploading, ...deleting, ...fromApi];
 		});
 	}, []);
 
@@ -56,10 +90,19 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 		refreshDocs();
 	}, [refreshDocs]);
 
-	// Auto-poll while any documents are still processing
+	// Notify parent when documents are ready AND vectors are fully indexed
+	const indexed = chunkCount > 0 && vectorCount >= chunkCount;
 	useEffect(() => {
-		const hasProcessing = entries.some((e) => e.status === "extracting");
-		if (!hasProcessing) return;
+		const hasReady = entries.some((e) => e.status === "ready");
+		onReadyChange(hasReady && indexed);
+	}, [entries, indexed, onReadyChange]);
+
+	// Auto-poll while documents are processing or vectors are not yet indexed
+	useEffect(() => {
+		const needsPoll = entries.some(
+			(e) => e.status === "extracting" || e.status === "indexing",
+		);
+		if (!needsPoll) return;
 		const interval = setInterval(refreshDocs, 3000);
 		return () => clearInterval(interval);
 	}, [entries, refreshDocs]);
@@ -134,7 +177,11 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 	}
 
 	function handleClick(entry: FileEntry) {
-		if (entry.status !== "ready" || !entry.docId) return;
+		if (
+			(entry.status !== "ready" && entry.status !== "indexing") ||
+			!entry.docId
+		)
+			return;
 		const doc = documents.find((d) => d.id === entry.docId);
 		if (doc) onSelectDoc(doc);
 	}
@@ -156,6 +203,7 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 	const STATUS_LABEL: Record<string, string> = {
 		queued: "Queued",
 		extracting: "Processing...",
+		indexing: "Indexing...",
 		deleting: "Removing...",
 		error: "Error",
 	};
@@ -187,20 +235,20 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 				{entries.map((entry) => (
 					<div
 						key={entry.key}
-						className={`file-item ${entry.docId === activeDocId && entry.status === "ready" ? "active" : ""} ${entry.status !== "ready" ? "file-item--processing" : ""}`}
+						className={`file-item ${entry.docId === activeDocId && (entry.status === "ready" || entry.status === "indexing") ? "active" : ""} ${entry.status === "error" ? "file-item--error" : entry.status === "indexing" ? "file-item--indexing" : entry.status !== "ready" ? "file-item--processing" : ""}`}
 					>
 						<button
 							type="button"
 							className="file-item-btn"
 							onClick={() => handleClick(entry)}
-							disabled={entry.status !== "ready"}
+							disabled={entry.status !== "ready" && entry.status !== "indexing"}
 						>
 							<span
 								className={`file-item-dot file-item-dot--${entry.status}`}
 							/>
 							<span className="file-item-label">{entry.filename}</span>
 						</button>
-						{entry.status === "ready" && entry.docId && (
+						{entry.status !== "deleting" && entry.docId && (
 							<button
 								type="button"
 								className="file-item-delete"

@@ -9,6 +9,7 @@ function App() {
 	const [activeDocId, setActiveDocId] = useState<number | null>(null);
 	const [activeFilename, setActiveFilename] = useState<string | null>(null);
 	const [activeCitation, setActiveCitation] = useState<Citation | null>(null);
+	const [hasReadyDocs, setHasReadyDocs] = useState(false);
 
 	const handleSelectDoc = useCallback((doc: DocumentInfo) => {
 		setActiveDocId(doc.id);
@@ -19,8 +20,8 @@ function App() {
 		async (citation: Citation) => {
 			if (citation.documentId !== activeDocId) {
 				setActiveDocId(citation.documentId);
-				const docs = await listDocuments();
-				const doc = docs.find((d) => d.id === citation.documentId);
+				const resp = await listDocuments();
+				const doc = resp.documents.find((d) => d.id === citation.documentId);
 				if (doc) setActiveFilename(doc.filename);
 			}
 			setActiveCitation(null);
@@ -50,13 +51,20 @@ function App() {
 				</div>
 			</header>
 			<main className="main">
-				<FileSidebar activeDocId={activeDocId} onSelectDoc={handleSelectDoc} />
+				<FileSidebar
+					activeDocId={activeDocId}
+					onSelectDoc={handleSelectDoc}
+					onReadyChange={setHasReadyDocs}
+				/>
 				<DocumentViewer
 					documentId={activeDocId}
 					citation={activeCitation}
 					filename={activeFilename}
 				/>
-				<ChatPanel onCitationClick={handleCitationClick} />
+				<ChatPanel
+					onCitationClick={handleCitationClick}
+					disabled={!hasReadyDocs}
+				/>
 			</main>
 		</div>
 	);

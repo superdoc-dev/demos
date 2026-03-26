@@ -146,6 +146,13 @@ export function createD1Client(db: D1Database) {
 			};
 		},
 
+		async chunkCount(): Promise<number> {
+			const result = await db
+				.prepare("SELECT COUNT(*) as count FROM chunks")
+				.first();
+			return (result as any)?.count ?? 0;
+		},
+
 		async getChunkIdsByDocument(documentId: number): Promise<string[]> {
 			const result = await db
 				.prepare("SELECT id FROM chunks WHERE document_id = ?")

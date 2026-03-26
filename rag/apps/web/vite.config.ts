@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
 	plugins: [react()],
+	base: process.env.BASE_PATH ?? "/",
 	server: {
 		port: 3000,
 		proxy: {

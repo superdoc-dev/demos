@@ -194,7 +194,7 @@ body {
 .file-item-dot {
 	width: 7px;
 	height: 7px;
-	background: var(--accent);
+	background: var(--success);
 	border-radius: 50%;
 	flex-shrink: 0;
 }
@@ -203,6 +203,10 @@ body {
 }
 .file-item-dot--extracting {
 	background: var(--accent);
+	animation: pulse 1s infinite;
+}
+.file-item-dot--indexing {
+	background: var(--success);
 	animation: pulse 1s infinite;
 }
 .file-item-dot--deleting {
@@ -216,6 +220,15 @@ body {
 	font-size: 11px;
 	color: var(--text-3);
 	padding-left: 14px;
+}
+.file-item--error {
+	opacity: 1;
+}
+.file-item--error .file-item-progress {
+	color: var(--deletion);
+}
+.file-item--error .file-item-delete {
+	display: flex;
 }
 
 /* ── Document viewer (center) ── */

@@ -20,6 +20,11 @@ export function createVectorizeClient(index: VectorizeIndex) {
 			}
 		},
 
+		async vectorCount(): Promise<number> {
+			const info = await index.describe();
+			return info.vectorCount;
+		},
+
 		async deleteByIds(ids: string[]): Promise<void> {
 			const batchSize = 1000;
 			for (let i = 0; i < ids.length; i += batchSize) {

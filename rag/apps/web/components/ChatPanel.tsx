@@ -18,9 +18,12 @@ const SAMPLE_QUESTIONS = [
 	"What was decided about pricing?",
 ];
 
-type Props = { onCitationClick: (citation: Citation) => void };
+type Props = {
+	onCitationClick: (citation: Citation) => void;
+	disabled?: boolean;
+};
 
-export function ChatPanel({ onCitationClick }: Props) {
+export function ChatPanel({ onCitationClick, disabled }: Props) {
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [input, setInput] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -34,7 +37,7 @@ export function ChatPanel({ onCitationClick }: Props) {
 
 	async function handleSend() {
 		const q = input.trim();
-		if (!q || loading) return;
+		if (!q || loading || disabled) return;
 
 		const userMsg: Message = {
 			id: nextIdRef.current++,
@@ -89,25 +92,37 @@ export function ChatPanel({ onCitationClick }: Props) {
 			<div className="chat-body">
 				{messages.length === 0 && (
 					<div className="chat-empty">
-						<span className="chat-empty-title">Ask your documents</span>
-						<span className="chat-empty-hint">
-							Get cited answers from paragraphs, comments, and tracked changes.
-							Click a citation to see the source.
-						</span>
-						<div className="sample-questions">
-							{SAMPLE_QUESTIONS.map((q) => (
-								<button
-									type="button"
-									key={q}
-									className="sample-question"
-									onClick={() => {
-										setInput(q);
-									}}
-								>
-									{q}
-								</button>
-							))}
-						</div>
+						{disabled ? (
+							<>
+								<span className="chat-empty-title">Waiting for documents</span>
+								<span className="chat-empty-hint">
+									Documents need to be uploaded, processed, and indexed before
+									you can ask questions.
+								</span>
+							</>
+						) : (
+							<>
+								<span className="chat-empty-title">Ask your documents</span>
+								<span className="chat-empty-hint">
+									Get cited answers from paragraphs, comments, and tracked
+									changes. Click a citation to see the source.
+								</span>
+								<div className="sample-questions">
+									{SAMPLE_QUESTIONS.map((q) => (
+										<button
+											type="button"
+											key={q}
+											className="sample-question"
+											onClick={() => {
+												setInput(q);
+											}}
+										>
+											{q}
+										</button>
+									))}
+								</div>
+							</>
+						)}
 					</div>
 				)}
 				{messages.map((msg) => (
@@ -128,13 +143,13 @@ export function ChatPanel({ onCitationClick }: Props) {
 					value={input}
 					onChange={(e) => setInput(e.target.value)}
 					onKeyDown={(e) => e.key === "Enter" && handleSend()}
-					disabled={loading}
+					disabled={loading || disabled}
 				/>
 				<button
 					type="button"
 					className="btn-send"
 					onClick={handleSend}
-					disabled={loading || !input.trim()}
+					disabled={loading || disabled || !input.trim()}
 				>
 					Send
 				</button>
