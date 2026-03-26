@@ -56,5 +56,6 @@ jobs:
         working-directory: rag/apps/web
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
-      - run: bunx wrangler pages deploy dist --project-name=rag-demo-web
-        working-directory: rag/apps/web
+          BASE_PATH: /docrag/
+      - run: mkdir -p dist/docrag && cp -r apps/web/dist/* dist/docrag/
+      - run: bunx wrangler pages deploy dist --project-name=superdoc-demos --commit-dirty=true

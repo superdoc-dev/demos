@@ -67,7 +67,7 @@ export function DocumentViewer({ documentId, citation, filename }: Props) {
 		superdocRef.current = new SuperDoc({
 			selector: containerRef.current,
 			document: docFile,
-			documentMode: "editing",
+			documentMode: "viewing",
 			comments: { visible: true },
 			trackChanges: { visible: true },
 		});
