@@ -7,6 +7,7 @@
 		"dev": "bun --hot index.ts"
 	},
 	"dependencies": {
-		"@rag-demo/shared": "workspace:*"
+		"@rag-demo/shared": "workspace:*",
+		"@superdoc-dev/cli": "latest"
 	}
 }

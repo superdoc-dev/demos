@@ -25,24 +25,30 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 		const docs = await listDocuments();
 		setDocuments(docs);
 		setEntries((prev) => {
-			const processing = prev.filter(
-				(e) => e.status !== "ready" && e.status !== "error",
+			const uploading = prev.filter(
+				(e) => e.status === "queued" && !docs.some((d) => d.id === e.docId),
 			);
-			const ready: FileEntry[] = docs
-				.filter((d) => !processing.some((p) => p.docId === d.id))
-				.map((d) => ({
-					key: `doc-${d.id}`,
-					filename: d.filename,
-					docId: d.id,
-					status: "ready",
-				}));
-			return [...processing, ...ready];
+			const fromApi: FileEntry[] = docs.map((d) => ({
+				key: `doc-${d.id}`,
+				filename: d.filename,
+				docId: d.id,
+				status: d.status === "ready" ? "ready" : "extracting",
+			}));
+			return [...uploading, ...fromApi];
 		});
 	}, []);
 
 	useEffect(() => {
 		refreshDocs();
 	}, [refreshDocs]);
+
+	// Auto-poll while any documents are still processing
+	useEffect(() => {
+		const hasProcessing = entries.some((e) => e.status === "extracting");
+		if (!hasProcessing) return;
+		const interval = setInterval(refreshDocs, 3000);
+		return () => clearInterval(interval);
+	}, [entries, refreshDocs]);
 
 	function updateEntry(key: string, update: Partial<FileEntry>) {
 		setEntries((prev) =>
@@ -54,22 +60,9 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 		try {
 			updateEntry(key, { status: "extracting" });
 			const result = await ingestDocument(file);
-			const docId = result.documentId;
-			updateEntry(key, { status: "extracting", docId });
-
-			// Poll until the document is ready (ingest service processes it async)
-			const maxAttempts = 60;
-			for (let i = 0; i < maxAttempts; i++) {
-				await new Promise((r) => setTimeout(r, 3000));
-				const docs = await listDocuments();
-				const doc = docs.find((d) => d.id === docId);
-				if (doc?.status === "ready") {
-					updateEntry(key, { status: "ready", docId });
-					setDocuments(docs);
-					return;
-				}
-			}
-			updateEntry(key, { status: "error", detail: "Timed out" });
+			updateEntry(key, { status: "extracting", docId: result.documentId });
+			// Auto-poll effect will pick up status changes
+			refreshDocs();
 		} catch (err) {
 			updateEntry(key, {
 				status: "error",
