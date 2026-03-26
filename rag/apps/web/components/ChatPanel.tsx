@@ -10,6 +10,14 @@ type Message = {
 	loading?: boolean;
 };
 
+const SAMPLE_QUESTIONS = [
+	"What are the biggest risks to the beta launch?",
+	"Can healthcare companies join the beta?",
+	"How much will the NLQ feature cost to run?",
+	"What do customers think about anomaly detection?",
+	"What was decided about pricing?",
+];
+
 type Props = { onCitationClick: (citation: Citation) => void };
 
 export function ChatPanel({ onCitationClick }: Props) {
@@ -86,6 +94,20 @@ export function ChatPanel({ onCitationClick }: Props) {
 							Get cited answers from paragraphs, comments, and tracked changes.
 							Click a citation to see the source.
 						</span>
+						<div className="sample-questions">
+							{SAMPLE_QUESTIONS.map((q) => (
+								<button
+									type="button"
+									key={q}
+									className="sample-question"
+									onClick={() => {
+										setInput(q);
+									}}
+								>
+									{q}
+								</button>
+							))}
+						</div>
 					</div>
 				)}
 				{messages.map((msg) => (

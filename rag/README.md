@@ -69,6 +69,16 @@ bun run dev:web
 
 Open [http://localhost:3000](http://localhost:3000)
 
+### Sample Questions
+
+Try these across the sample documents:
+
+- "What are the biggest risks to the beta launch?"
+- "Can healthcare companies join the beta?"
+- "How much will the NLQ feature cost to run?"
+- "What do customers think about anomaly detection?"
+- "What was decided about pricing?"
+
 ## Deploy
 
 ### Worker + Frontend
