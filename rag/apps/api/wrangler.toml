@@ -15,7 +15,7 @@ remote = true
 [[d1_databases]]
 binding = "DB"
 database_name = "rag-demo"
-database_id = "edecf9a0-85de-4ba5-bbde-74a2e381be4f"
+database_id = "" # Run `wrangler d1 create rag-demo` and paste the ID here
 
 [vars]
 ENVIRONMENT = "production"
