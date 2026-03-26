@@ -1,13 +1,12 @@
 services:
   ingest:
     build:
-      context: ../..
-      dockerfile: apps/ingest-service/Dockerfile
+      context: ../../..
+      dockerfile: rag/apps/ingest-service/Dockerfile
     ports:
       - "4000:4000"
     environment:
       - PORT=4000
       - API_URL=${API_URL}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - AUTH_TOKEN=${AUTH_TOKEN}
     restart: unless-stopped

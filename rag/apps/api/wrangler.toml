@@ -6,6 +6,7 @@ compatibility_flags = ["nodejs_compat"]
 [[r2_buckets]]
 binding = "DOCS_BUCKET"
 bucket_name = "rag-demo-docs"
+remote = true
 
 [[vectorize]]
 binding = "VECTORIZE"
@@ -15,7 +16,8 @@ remote = true
 [[d1_databases]]
 binding = "DB"
 database_name = "rag-demo"
-database_id = "" # Run `wrangler d1 create rag-demo` and paste the ID here
+database_id = "edecf9a0-85de-4ba5-bbde-74a2e381be4f"
+remote = true
 
 [vars]
 ENVIRONMENT = "production"

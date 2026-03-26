@@ -2,6 +2,7 @@ export type DocumentRow = {
 	id: number;
 	filename: string;
 	r2Key: string;
+	fileHash: string | null;
 	status: string;
 	createdAt: string;
 };
@@ -13,13 +14,32 @@ export function createD1Client(db: D1Database) {
 			filename: string,
 			r2Key: string,
 			status = "ready",
+			fileHash: string | null = null,
 		): Promise<void> {
 			await db
 				.prepare(
-					"INSERT INTO documents (id, filename, r2_key, status) VALUES (?, ?, ?, ?)",
+					"INSERT INTO documents (id, filename, r2_key, status, file_hash) VALUES (?, ?, ?, ?, ?)",
 				)
-				.bind(id, filename, r2Key, status)
+				.bind(id, filename, r2Key, status, fileHash)
 				.run();
+		},
+
+		async findByHash(hash: string): Promise<DocumentRow | null> {
+			const result = await db
+				.prepare(
+					"SELECT id, filename, r2_key, file_hash, status, created_at FROM documents WHERE file_hash = ?",
+				)
+				.bind(hash)
+				.first();
+			if (!result) return null;
+			return {
+				id: (result as any).id,
+				filename: (result as any).filename,
+				r2Key: (result as any).r2_key,
+				fileHash: (result as any).file_hash,
+				status: (result as any).status,
+				createdAt: (result as any).created_at,
+			};
 		},
 
 		async insertChunks(
@@ -93,7 +113,7 @@ export function createD1Client(db: D1Database) {
 		async listDocuments(): Promise<DocumentRow[]> {
 			const result = await db
 				.prepare(
-					"SELECT id, filename, r2_key, status, created_at FROM documents ORDER BY created_at DESC",
+					"SELECT id, filename, r2_key, file_hash, status, created_at FROM documents ORDER BY created_at DESC",
 				)
 				.all();
 
@@ -101,6 +121,7 @@ export function createD1Client(db: D1Database) {
 				id: r.id,
 				filename: r.filename,
 				r2Key: r.r2_key,
+				fileHash: r.file_hash,
 				status: r.status,
 				createdAt: r.created_at,
 			}));
@@ -109,7 +130,7 @@ export function createD1Client(db: D1Database) {
 		async getDocument(id: number): Promise<DocumentRow | null> {
 			const result = await db
 				.prepare(
-					"SELECT id, filename, r2_key, status, created_at FROM documents WHERE id = ?",
+					"SELECT id, filename, r2_key, file_hash, status, created_at FROM documents WHERE id = ?",
 				)
 				.bind(id)
 				.first();
@@ -119,6 +140,7 @@ export function createD1Client(db: D1Database) {
 				id: (result as any).id,
 				filename: (result as any).filename,
 				r2Key: (result as any).r2_key,
+				fileHash: (result as any).file_hash,
 				status: (result as any).status,
 				createdAt: (result as any).created_at,
 			};

@@ -4,10 +4,19 @@ import { type DocumentInfo, ingestDocument, listDocuments } from "../lib/api";
 type FileEntry = {
 	key: string;
 	filename: string;
+	hash?: string;
 	docId?: number;
 	status: "ready" | "queued" | "extracting" | "error";
 	detail?: string;
 };
+
+async function fileHash(file: File): Promise<string> {
+	const buffer = await file.arrayBuffer();
+	const hash = await crypto.subtle.digest("SHA-256", buffer);
+	return Array.from(new Uint8Array(hash))
+		.map((b) => b.toString(16).padStart(2, "0"))
+		.join("");
+}
 
 type Props = {
 	activeDocId: number | null;
@@ -57,13 +66,18 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 	}
 
 	async function processFile(file: File, key: string) {
+		console.log(
+			`[upload] processFile called: ${file.name} (${file.size} bytes) key=${key}`,
+		);
 		try {
 			updateEntry(key, { status: "extracting" });
+			console.log(`[upload] Calling ingestDocument...`);
 			const result = await ingestDocument(file);
+			console.log(`[upload] Upload complete: docId=${result.documentId}`);
 			updateEntry(key, { status: "extracting", docId: result.documentId });
-			// Auto-poll effect will pick up status changes
 			refreshDocs();
 		} catch (err) {
+			console.error(`[upload] Failed:`, err);
 			updateEntry(key, {
 				status: "error",
 				detail: err instanceof Error ? err.message : "Failed",
@@ -73,18 +87,37 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 
 	async function handleFiles(files: FileList) {
 		const docxFiles = Array.from(files).filter((f) => f.name.endsWith(".docx"));
+		console.log(`[upload] handleFiles: ${docxFiles.length} .docx files`);
 		if (docxFiles.length === 0) return;
 
-		const jobs: { file: File; key: string }[] = [];
-		setEntries((prev) => {
-			const newEntries: FileEntry[] = docxFiles.map((f) => {
-				const key = `upload-${++entrySeq}`;
-				jobs.push({ file: f, key });
-				return { key, filename: f.name, status: "queued" };
-			});
-			return [...prev, ...newEntries];
-		});
+		// Hash files and filter out duplicates
+		const hashes = await Promise.all(docxFiles.map((f) => fileHash(f)));
+		const existingHashes = new Set(entries.map((e) => e.hash).filter(Boolean));
+		const jobs: { file: File; key: string; hash: string }[] = [];
 
+		for (let i = 0; i < docxFiles.length; i++) {
+			if (existingHashes.has(hashes[i])) {
+				console.log(`[upload] Skipping duplicate: ${docxFiles[i].name}`);
+				continue;
+			}
+			const key = `upload-${++entrySeq}`;
+			jobs.push({ file: docxFiles[i], key, hash: hashes[i] });
+			existingHashes.add(hashes[i]);
+		}
+
+		if (jobs.length === 0) return;
+
+		setEntries((prev) => [
+			...prev,
+			...jobs.map((j) => ({
+				key: j.key,
+				filename: j.file.name,
+				hash: j.hash,
+				status: "queued" as const,
+			})),
+		]);
+
+		console.log(`[upload] Starting ${jobs.length} uploads`);
 		await Promise.all(jobs.map((j) => processFile(j.file, j.key)));
 	}
 

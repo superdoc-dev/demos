@@ -93,12 +93,29 @@ export default {
 async function handleUpload(request: Request, env: Env): Promise<Response> {
 	const formData = await request.formData();
 	const file = formData.get("file") as File | null;
+	const fileHash = formData.get("hash") as string | null;
+
 	if (!file?.name.endsWith(".docx")) {
 		return json({ error: "Upload a .docx file" }, 400);
 	}
 
 	const d1 = createD1Client(env.DB);
 	const r2 = createR2Client(env.DOCS_BUCKET);
+
+	// Check for duplicate by hash
+	if (fileHash) {
+		const existing = await d1.findByHash(fileHash);
+		if (existing) {
+			return json(
+				{
+					error: "duplicate",
+					documentId: existing.id,
+					filename: existing.filename,
+				},
+				409,
+			);
+		}
+	}
 
 	const docId = Date.now() * 1000 + Math.floor(Math.random() * 1000);
 	const r2Key = `docs/${docId}-${file.name}`;
@@ -107,21 +124,33 @@ async function handleUpload(request: Request, env: Env): Promise<Response> {
 	await r2.upload(r2Key, await file.arrayBuffer());
 
 	// Create pending document in D1
-	await d1.insertDocument(docId, file.name, r2Key, "processing");
+	await d1.insertDocument(docId, file.name, r2Key, "processing", fileHash);
 
 	// Trigger ingest service (fire-and-forget)
+	// Trigger ingest service
 	if (env.INGEST_SERVICE_URL) {
+		const ingestUrl = `${env.INGEST_SERVICE_URL}/ingest`;
+		console.log(`[upload] Triggering ingest: ${ingestUrl}`);
 		const headers: Record<string, string> = {
 			"Content-Type": "application/json",
 		};
 		if (env.AUTH_TOKEN) {
 			headers.Authorization = `Bearer ${env.AUTH_TOKEN}`;
 		}
-		fetch(`${env.INGEST_SERVICE_URL}/ingest`, {
-			method: "POST",
-			headers,
-			body: JSON.stringify({ documentId: docId, filename: file.name }),
-		}).catch((err) => console.error("Failed to trigger ingest:", err));
+		try {
+			const ingestRes = await fetch(ingestUrl, {
+				method: "POST",
+				headers,
+				body: JSON.stringify({ documentId: docId, filename: file.name }),
+			});
+			console.log(
+				`[upload] Ingest response: ${ingestRes.status} ${await ingestRes.text()}`,
+			);
+		} catch (err) {
+			console.error(`[upload] Ingest webhook failed:`, err);
+		}
+	} else {
+		console.warn("[upload] No INGEST_SERVICE_URL configured");
 	}
 
 	return json({
@@ -216,13 +245,24 @@ async function handleIngestChunks(
 	await d1.insertChunks(
 		body.chunks.map((c) => ({ ...c, documentId: body.documentId })),
 	);
-	await vectorize.insert(
-		body.chunks.map((c) => ({
+	console.log(
+		`[ingest/chunks] D1: ${body.chunks.length} chunks inserted for doc ${body.documentId}`,
+	);
+
+	try {
+		const vectors = body.chunks.map((c) => ({
 			id: c.id,
 			values: c.embedding,
 			metadata: { documentId: body.documentId },
-		})),
-	);
+		}));
+		console.log(
+			`[ingest/chunks] Vectorize: upserting ${vectors.length} vectors (first id: ${vectors[0]?.id}, dims: ${vectors[0]?.values?.length})`,
+		);
+		await vectorize.insert(vectors);
+		console.log(`[ingest/chunks] Vectorize: upsert complete`);
+	} catch (err) {
+		console.error(`[ingest/chunks] Vectorize upsert FAILED:`, err);
+	}
 
 	// Update document status to ready
 	await d1.updateDocumentStatus(body.documentId, "ready");
@@ -265,13 +305,21 @@ async function handleQuery(request: Request, env: Env): Promise<Response> {
 
 	const vectorize = createVectorizeClient(env.VECTORIZE);
 	const matches = await vectorize.search(queryVector, { limit: 8 });
+	console.log(
+		`[query] Vectorize returned ${matches.length} matches:`,
+		matches.map((m) => m.id).join(", "),
+	);
 
 	if (matches.length === 0) {
 		return json({ answer: "No relevant content found.", citations: [] });
 	}
 
 	const d1 = createD1Client(env.DB);
-	const chunks = await d1.getChunksByIds(matches.map((m) => m.id));
+	const chunkIds = matches.map((m) => m.id);
+	const chunks = await d1.getChunksByIds(chunkIds);
+	console.log(
+		`[query] D1 returned ${chunks.length} chunks for ${chunkIds.length} IDs`,
+	);
 
 	const context = chunks
 		.map(

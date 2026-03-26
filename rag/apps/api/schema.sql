@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS documents (
   id INTEGER PRIMARY KEY,
   filename TEXT NOT NULL,
   r2_key TEXT NOT NULL,
+  file_hash TEXT,
   status TEXT DEFAULT 'ready',
   created_at TEXT DEFAULT (datetime('now'))
 );
