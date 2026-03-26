@@ -54,11 +54,22 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 		try {
 			updateEntry(key, { status: "extracting" });
 			const result = await ingestDocument(file);
-			updateEntry(key, {
-				status: "ready",
-				docId: result.documentId,
-			});
-			refreshDocs();
+			const docId = result.documentId;
+			updateEntry(key, { status: "extracting", docId });
+
+			// Poll until the document is ready (ingest service processes it async)
+			const maxAttempts = 60;
+			for (let i = 0; i < maxAttempts; i++) {
+				await new Promise((r) => setTimeout(r, 3000));
+				const docs = await listDocuments();
+				const doc = docs.find((d) => d.id === docId);
+				if (doc?.status === "ready") {
+					updateEntry(key, { status: "ready", docId });
+					setDocuments(docs);
+					return;
+				}
+			}
+			updateEntry(key, { status: "error", detail: "Timed out" });
 		} catch (err) {
 			updateEntry(key, {
 				status: "error",

@@ -23,7 +23,7 @@ export type QueryResult = { answer: string; citations: Citation[] };
 export type DocumentInfo = {
 	id: number;
 	filename: string;
-	filePath: string;
+	status: string;
 };
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "";
