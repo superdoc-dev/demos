@@ -1,0 +1,45 @@
+name: Deploy RAG Demo
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "rag/**"
+      - ".github/workflows/deploy-rag.yml"
+
+env:
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+jobs:
+  deploy-api:
+    name: Deploy API Worker
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rag
+    steps:
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: bunx biome check .
+      - run: bunx wrangler d1 execute rag-demo --remote --file=apps/api/schema.sql
+      - run: bunx wrangler deploy
+        working-directory: rag/apps/api
+
+  deploy-web:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rag
+    steps:
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: bunx biome check .
+      - run: bunx vite build
+        working-directory: rag/apps/web
+      - run: bunx wrangler pages deploy dist --project-name=rag-demo-web
+        working-directory: rag/apps/web
