@@ -9,8 +9,8 @@ Upload `.docx` files, ask questions in natural language, and get answers with ci
 1. **Upload** `.docx` files through the UI
 2. **Extract** text, comments, and tracked changes using the [SuperDoc SDK](https://docs.superdoc.dev)
 3. **Chunk** each paragraph with its stable node ID, embed with OpenAI
-4. **Store** chunks in Cloudflare Vectorize, metadata in D1, files in R2
-5. **Query** — ask a question, relevant chunks are retrieved via vector search
+4. **Store** chunks with embeddings in PostgreSQL + pgvector, files in R2
+5. **Query** — ask a question, relevant chunks are retrieved via vector similarity search
 6. **Answer** — Claude generates a response with `[cite:ID]` references
 7. **Navigate** — click a citation to scroll to the source in the SuperDoc viewer
 
@@ -20,11 +20,13 @@ Upload `.docx` files, ask questions in natural language, and get answers with ci
 apps/
   api/              Cloudflare Worker — query, documents, file serving
   web/              React frontend — document viewer + chat sidebar
-  ingest-service/   Docker service — automated extraction for VM deployment
+  ingest/   Docker service — automated extraction for VM deployment
 packages/
   shared/           SuperDoc extraction, chunking, embedding client
 docs/               Sample .docx files
 ```
+
+**Stack**: Cloudflare Workers, PostgreSQL + pgvector, Cloudflare R2, React, SuperDoc, Claude, OpenAI embeddings
 
 ## Quick Start
 
@@ -33,6 +35,7 @@ docs/               Sample .docx files
 - [Bun](https://bun.sh) v1.1+
 - [Wrangler](https://developers.cloudflare.com/workers/wrangler/) (installed automatically)
 - Cloudflare account (free tier works)
+- PostgreSQL database with [pgvector](https://github.com/pgvector/pgvector)
 - OpenAI API key (for embeddings)
 - Anthropic API key (for Claude)
 
@@ -41,18 +44,19 @@ docs/               Sample .docx files
 ```bash
 bun install
 
-# Create Cloudflare resources
-cd apps/api
-npx wrangler d1 create docrag
-# Copy the database_id into wrangler.toml
+# Create the database schema (run against your Neon database)
+psql $DATABASE_URL -f apps/api/schema.sql
 
-npx wrangler d1 execute docrag --local --file=schema.sql
-npx wrangler vectorize create rag-chunks --dimensions=1536 --metric=cosine
+# Create Cloudflare R2 bucket
+cd apps/api
+npx wrangler r2 bucket create rag-demo-docs
 
 # Add secrets for local dev
 cat > .dev.vars << EOF
+DATABASE_URL=postgresql://...your-connection-string...
 OPENAI_API_KEY=sk-...
 ANTHROPIC_API_KEY=sk-ant-...
+INGEST_SERVICE_URL=http://localhost:4000
 EOF
 cd ../..
 ```
@@ -86,9 +90,9 @@ Try these across the sample documents:
 ```bash
 # Deploy API Worker
 cd apps/api
+wrangler secret put DATABASE_URL
 wrangler secret put OPENAI_API_KEY
 wrangler secret put ANTHROPIC_API_KEY
-wrangler d1 execute docrag --remote --file=schema.sql
 wrangler deploy
 
 # Deploy frontend to Cloudflare Pages
@@ -101,7 +105,7 @@ bun run deploy:web
 For automated ingestion, deploy the Docker service to a VM:
 
 ```bash
-docker build -f apps/ingest-service/Dockerfile -t docrag-ingest .
+docker build -f apps/ingest/Dockerfile -t docrag-ingest .
 docker run -d \
   -e API_URL=https://docrag-api.<account>.workers.dev \
   -e OPENAI_API_KEY=sk-... \

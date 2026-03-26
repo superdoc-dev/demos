@@ -1,12 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { createD1Client } from "./cf/d1";
+import { createNeonClient } from "./cf/neon";
 import { createR2Client } from "./cf/r2";
-import { createVectorizeClient } from "./cf/vectorize";
 
 interface Env {
-	DB: D1Database;
 	DOCS_BUCKET: R2Bucket;
-	VECTORIZE: VectorizeIndex;
+	DATABASE_URL: string;
 	OPENAI_API_KEY: string;
 	ANTHROPIC_API_KEY: string;
 	INGEST_SERVICE_URL?: string;
@@ -39,7 +37,7 @@ export default {
 		}
 
 		try {
-			// POST /api/upload — UI file upload → R2 + D1 + trigger ingest service
+			// POST /api/upload
 			if (url.pathname === "/api/upload" && request.method === "POST") {
 				return handleUpload(request, env);
 			}
@@ -49,24 +47,22 @@ export default {
 				return handleIngest(request, env);
 			}
 
-			// POST /api/ingest/chunks — ingest service pushes back processed chunks
+			// POST /api/ingest/chunks — ingest service callback
 			if (url.pathname === "/api/ingest/chunks" && request.method === "POST") {
 				return handleIngestChunks(request, env);
 			}
 
-			// POST /api/query — RAG query
+			// POST /api/query
 			if (url.pathname === "/api/query" && request.method === "POST") {
 				return handleQuery(request, env);
 			}
 
-			// GET /api/documents — list documents + indexing status
+			// GET /api/documents
 			if (url.pathname === "/api/documents" && request.method === "GET") {
-				const d1 = createD1Client(env.DB);
-				const vectorize = createVectorizeClient(env.VECTORIZE);
-				const [docs, vectorCount, chunkCount] = await Promise.all([
-					d1.listDocuments(),
-					vectorize.vectorCount(),
-					d1.chunkCount(),
+				const db = createNeonClient(env.DATABASE_URL);
+				const [docs, chunkCount] = await Promise.all([
+					db.listDocuments(),
+					db.chunkCount(),
 				]);
 				const TIMEOUT_MS = 2 * 60 * 1000;
 				const now = Date.now();
@@ -74,7 +70,7 @@ export default {
 					if (d.status === "processing") {
 						const created = new Date(d.createdAt).getTime();
 						if (now - created > TIMEOUT_MS) {
-							await d1.updateDocumentStatus(d.id, "error");
+							await db.updateDocumentStatus(d.id, "error");
 							d.status = "error";
 						}
 					}
@@ -85,18 +81,17 @@ export default {
 						filename: d.filename,
 						status: d.status,
 					})),
-					vectorCount,
 					chunkCount,
 				});
 			}
 
-			// DELETE /api/documents/:id — remove document, chunks, vectors, and file
+			// DELETE /api/documents/:id
 			const deleteMatch = url.pathname.match(/^\/api\/documents\/(\d+)$/);
 			if (deleteMatch && request.method === "DELETE") {
 				return handleDeleteDocument(Number(deleteMatch[1]), env);
 			}
 
-			// GET /api/documents/:id/file — serve from R2
+			// GET /api/documents/:id/file
 			const fileMatch = url.pathname.match(/^\/api\/documents\/(\d+)\/file$/);
 			if (fileMatch && request.method === "GET") {
 				return handleDocFile(Number(fileMatch[1]), env);
@@ -110,10 +105,6 @@ export default {
 	},
 };
 
-/**
- * UI upload: receive .docx file, store in R2, create pending doc in D1,
- * trigger the ingest service to extract + embed.
- */
 async function handleUpload(request: Request, env: Env): Promise<Response> {
 	const formData = await request.formData();
 	const file = formData.get("file") as File | null;
@@ -123,12 +114,11 @@ async function handleUpload(request: Request, env: Env): Promise<Response> {
 		return json({ error: "Upload a .docx file" }, 400);
 	}
 
-	const d1 = createD1Client(env.DB);
+	const db = createNeonClient(env.DATABASE_URL);
 	const r2 = createR2Client(env.DOCS_BUCKET);
 
-	// Check for duplicate by hash
 	if (fileHash) {
-		const existing = await d1.findByHash(fileHash);
+		const existing = await db.findByHash(fileHash);
 		if (existing) {
 			return json(
 				{
@@ -144,14 +134,9 @@ async function handleUpload(request: Request, env: Env): Promise<Response> {
 	const docId = Date.now() * 1000 + Math.floor(Math.random() * 1000);
 	const r2Key = `docs/${docId}-${file.name}`;
 
-	// Store file in R2
 	await r2.upload(r2Key, await file.arrayBuffer());
+	await db.insertDocument(docId, file.name, r2Key, "processing", fileHash);
 
-	// Create pending document in D1
-	await d1.insertDocument(docId, file.name, r2Key, "processing", fileHash);
-
-	// Trigger ingest service (fire-and-forget)
-	// Trigger ingest service
 	if (env.INGEST_SERVICE_URL) {
 		const ingestUrl = `${env.INGEST_SERVICE_URL}/ingest`;
 		console.log(`[upload] Triggering ingest: ${ingestUrl}`);
@@ -184,9 +169,6 @@ async function handleUpload(request: Request, env: Env): Promise<Response> {
 	});
 }
 
-/**
- * CLI ingest: receive file + pre-extracted chunks in one shot.
- */
 async function handleIngest(request: Request, env: Env): Promise<Response> {
 	const body = (await request.json()) as {
 		filename: string;
@@ -208,9 +190,8 @@ async function handleIngest(request: Request, env: Env): Promise<Response> {
 		return json({ error: "filename and chunks required" }, 400);
 	}
 
-	const d1 = createD1Client(env.DB);
+	const db = createNeonClient(env.DATABASE_URL);
 	const r2 = createR2Client(env.DOCS_BUCKET);
-	const vectorize = createVectorizeClient(env.VECTORIZE);
 
 	const docId = Date.now() * 1000 + Math.floor(Math.random() * 1000);
 	const r2Key = `docs/${docId}-${body.filename}`;
@@ -220,15 +201,8 @@ async function handleIngest(request: Request, env: Env): Promise<Response> {
 		await r2.upload(r2Key, fileBuffer.buffer);
 	}
 
-	await d1.insertDocument(docId, body.filename, r2Key, "ready");
-	await d1.insertChunks(body.chunks.map((c) => ({ ...c, documentId: docId })));
-	await vectorize.insert(
-		body.chunks.map((c) => ({
-			id: c.id,
-			values: c.embedding,
-			metadata: { documentId: docId },
-		})),
-	);
+	await db.insertDocument(docId, body.filename, r2Key, "ready");
+	await db.insertChunks(body.chunks.map((c) => ({ ...c, documentId: docId })));
 
 	return json({
 		documentId: docId,
@@ -237,9 +211,6 @@ async function handleIngest(request: Request, env: Env): Promise<Response> {
 	});
 }
 
-/**
- * Ingest service callback: receive processed chunks for an existing document.
- */
 async function handleIngestChunks(
 	request: Request,
 	env: Env,
@@ -263,33 +234,16 @@ async function handleIngestChunks(
 		return json({ error: "documentId and chunks required" }, 400);
 	}
 
-	const d1 = createD1Client(env.DB);
-	const vectorize = createVectorizeClient(env.VECTORIZE);
+	const db = createNeonClient(env.DATABASE_URL);
 
-	await d1.insertChunks(
+	await db.insertChunks(
 		body.chunks.map((c) => ({ ...c, documentId: body.documentId })),
 	);
 	console.log(
-		`[ingest/chunks] D1: ${body.chunks.length} chunks inserted for doc ${body.documentId}`,
+		`[ingest/chunks] ${body.chunks.length} chunks inserted for doc ${body.documentId}`,
 	);
 
-	try {
-		const vectors = body.chunks.map((c) => ({
-			id: c.id,
-			values: c.embedding,
-			metadata: { documentId: body.documentId },
-		}));
-		console.log(
-			`[ingest/chunks] Vectorize: upserting ${vectors.length} vectors (first id: ${vectors[0]?.id}, dims: ${vectors[0]?.values?.length})`,
-		);
-		await vectorize.insert(vectors);
-		console.log(`[ingest/chunks] Vectorize: upsert complete`);
-	} catch (err) {
-		console.error(`[ingest/chunks] Vectorize upsert FAILED:`, err);
-	}
-
-	// Update document status to ready
-	await d1.updateDocumentStatus(body.documentId, "ready");
+	await db.updateDocumentStatus(body.documentId, "ready");
 
 	return json({
 		documentId: body.documentId,
@@ -327,30 +281,12 @@ async function handleQuery(request: Request, env: Env): Promise<Response> {
 	};
 	const queryVector = embedData.data[0].embedding;
 
-	const vectorize = createVectorizeClient(env.VECTORIZE);
-	const matches = await vectorize.search(queryVector, { limit: 8 });
-	console.log(
-		`[query] Vectorize returned ${matches.length} matches:`,
-		matches.map((m) => m.id).join(", "),
-	);
-
-	if (matches.length === 0) {
-		return json({ answer: "No relevant content found.", citations: [] });
-	}
-
-	const d1 = createD1Client(env.DB);
-	const chunkIds = matches.map((m) => m.id);
-	const chunks = await d1.getChunksByIds(chunkIds);
-	console.log(
-		`[query] D1 returned ${chunks.length} chunks for ${chunkIds.length} IDs`,
-	);
+	const db = createNeonClient(env.DATABASE_URL);
+	const chunks = await db.searchChunks(queryVector, 8);
+	console.log(`[query] pgvector returned ${chunks.length} chunks`);
 
 	if (chunks.length === 0) {
-		return json({
-			answer:
-				"Documents are still being indexed. Please try again in a moment.",
-			citations: [],
-		});
+		return json({ answer: "No relevant content found.", citations: [] });
 	}
 
 	const context = chunks
@@ -409,21 +345,14 @@ async function handleQuery(request: Request, env: Env): Promise<Response> {
 }
 
 async function handleDeleteDocument(id: number, env: Env): Promise<Response> {
-	const d1 = createD1Client(env.DB);
+	const db = createNeonClient(env.DATABASE_URL);
 	const r2 = createR2Client(env.DOCS_BUCKET);
-	const vectorize = createVectorizeClient(env.VECTORIZE);
 
-	const doc = await d1.getDocument(id);
+	const doc = await db.getDocument(id);
 	if (!doc) return json({ error: "Not found" }, 404);
 
-	// Delete vectors from Vectorize
-	const chunkIds = await d1.getChunkIdsByDocument(id);
-	if (chunkIds.length > 0) {
-		await vectorize.deleteByIds(chunkIds);
-	}
-
-	// Delete document + chunks (cascades) from D1
-	await d1.deleteDocument(id);
+	// Delete document + chunks (cascades) from Neon
+	await db.deleteDocument(id);
 
 	// Delete file from R2
 	await r2.delete(doc.r2Key);
@@ -432,8 +361,8 @@ async function handleDeleteDocument(id: number, env: Env): Promise<Response> {
 }
 
 async function handleDocFile(id: number, env: Env): Promise<Response> {
-	const d1 = createD1Client(env.DB);
-	const doc = await d1.getDocument(id);
+	const db = createNeonClient(env.DATABASE_URL);
+	const doc = await db.getDocument(id);
 	if (!doc) return json({ error: "Not found" }, 404);
 
 	const r2 = createR2Client(env.DOCS_BUCKET);

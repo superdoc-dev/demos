@@ -10,7 +10,8 @@
 	},
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.30.0",
-		"@docrag/shared": "workspace:*"
+		"@docrag/shared": "workspace:*",
+		"@neondatabase/serverless": "^1.0.2"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20250326.0",

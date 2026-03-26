@@ -8,21 +8,11 @@ binding = "DOCS_BUCKET"
 bucket_name = "rag-demo-docs"
 remote = true
 
-[[vectorize]]
-binding = "VECTORIZE"
-index_name = "rag-chunks"
-remote = true
-
-[[d1_databases]]
-binding = "DB"
-database_name = "rag-demo"
-database_id = "edecf9a0-85de-4ba5-bbde-74a2e381be4f"
-remote = true
-
 [vars]
 ENVIRONMENT = "production"
 
 # Secrets (set via `wrangler secret put`):
+# DATABASE_URL (Neon connection string)
 # OPENAI_API_KEY
 # ANTHROPIC_API_KEY
 # INGEST_SERVICE_URL (e.g. https://ingest.yourdomain.com)

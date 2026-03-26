@@ -205,10 +205,6 @@ body {
 	background: var(--accent);
 	animation: pulse 1s infinite;
 }
-.file-item-dot--indexing {
-	background: var(--success);
-	animation: pulse 1s infinite;
-}
 .file-item-dot--deleting {
 	background: var(--deletion);
 	animation: pulse 1s infinite;

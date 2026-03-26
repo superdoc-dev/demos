@@ -1,15 +1,17 @@
+CREATE EXTENSION IF NOT EXISTS vector;
+
 CREATE TABLE IF NOT EXISTS documents (
-  id INTEGER PRIMARY KEY,
+  id BIGINT PRIMARY KEY,
   filename TEXT NOT NULL,
   r2_key TEXT NOT NULL,
   file_hash TEXT,
   status TEXT DEFAULT 'ready',
-  created_at TEXT DEFAULT (datetime('now'))
+  created_at TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE TABLE IF NOT EXISTS chunks (
   id TEXT PRIMARY KEY,
-  document_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+  document_id BIGINT NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
   block_id TEXT NOT NULL,
   target_id TEXT NOT NULL,
   target_type TEXT NOT NULL,
@@ -17,7 +19,8 @@ CREATE TABLE IF NOT EXISTS chunks (
   content TEXT NOT NULL,
   context_type TEXT DEFAULT 'body',
   metadata TEXT DEFAULT '{}',
-  created_at TEXT DEFAULT (datetime('now'))
+  embedding vector(1536),
+  created_at TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE INDEX IF NOT EXISTS idx_chunks_document ON chunks(document_id);

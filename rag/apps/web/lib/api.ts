@@ -67,13 +67,12 @@ export async function deleteDocument(id: number): Promise<void> {
 
 export type DocumentsResponse = {
 	documents: DocumentInfo[];
-	vectorCount: number;
 	chunkCount: number;
 };
 
 export async function listDocuments(): Promise<DocumentsResponse> {
 	const res = await fetch(`${API_BASE}/api/documents`);
-	if (!res.ok) return { documents: [], vectorCount: 0, chunkCount: 0 };
+	if (!res.ok) return { documents: [], chunkCount: 0 };
 	return res.json();
 }
 

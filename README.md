@@ -10,7 +10,7 @@ Each demo is a standalone app that showcases a real-world use case: extracting d
 
 Ask your documents. Get cited answers. Upload `.docx` files and get AI-powered answers with citations that scroll to the exact paragraph, comment, or tracked change in the source document.
 
-**Stack**: Cloudflare Workers + R2 + D1 + Vectorize, React, SuperDoc, Claude, OpenAI embeddings
+**Stack**: Cloudflare Workers + R2, PostgreSQL + pgvector, React, SuperDoc, Claude, OpenAI embeddings
 
 **What it shows**:
 - Extract text, comments, and tracked changes from `.docx` files using the SuperDoc SDK
