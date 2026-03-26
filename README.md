@@ -2,7 +2,7 @@
 
 Working demos built with [SuperDoc](https://superdoc.dev) — the document engine for the modern web.
 
-Each demo is a standalone app that showcases a real-world use case: extracting document content for AI, building RAG pipelines, editing with tracked changes, and more.
+Live at [demos.superdoc.dev](https://demos.superdoc.dev)
 
 ## Demos
 
@@ -12,23 +12,29 @@ Ask your documents. Get cited answers. Upload `.docx` files and get AI-powered a
 
 **Stack**: Cloudflare Workers + R2, PostgreSQL + pgvector, React, SuperDoc, Claude, OpenAI embeddings
 
-**What it shows**:
-- Extract text, comments, and tracked changes from `.docx` files using the SuperDoc SDK
-- Chunk and embed document content for vector search
-- RAG pipeline: semantic search + Claude generates answers with citations
-- Click a citation to navigate to the source in the SuperDoc viewer
-- Cross-document search across multiple files
+### [`esign/`](./esign) — eSign
+
+eSignature orchestration demo. Add signature fields to `.docx` and PDF documents, sign with custom signatures, and manage the signing workflow.
+
+**Stack**: React, SuperDoc, @superdoc-dev/esign
+
+### [`template-builder/`](./template-builder) — Template Builder
+
+Document template engine demo. Build reusable templates with dynamic fields and merge data into `.docx` documents.
+
+**Stack**: React, SuperDoc, @superdoc-dev/template-builder
 
 ## Running a Demo
 
-Each demo has its own README with setup instructions. The general pattern:
+Each demo is a standalone app. The general pattern:
 
 ```bash
-cd rag
+cd <demo>
 bun install
-cp .env.example .env  # add your API keys
 bun run dev
 ```
+
+See each demo's directory for specific setup instructions.
 
 ## License
 

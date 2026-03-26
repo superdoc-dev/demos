@@ -1,4 +1,4 @@
-name: Deploy RAG Demo
+name: Deploy Demos
 
 on:
   workflow_dispatch:
@@ -6,6 +6,8 @@ on:
     branches: [main]
     paths:
       - "rag/**"
+      - "esign/**"
+      - "template-builder/**"
       - ".github/workflows/deploy-rag.yml"
 
 env:
@@ -41,20 +43,45 @@ jobs:
         working-directory: rag/apps/api
 
   deploy-web:
-    name: Deploy Frontend
+    name: Deploy All Demos
     needs: check
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: rag
     steps:
       - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
+
+      # Build DocRAG
       - run: bun install
+        working-directory: rag
       - run: bunx vite build
         working-directory: rag/apps/web
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
           BASE_PATH: /docrag/
-      - run: mkdir -p dist/docrag && cp -r apps/web/dist/* dist/docrag/
+
+      # Build eSign
+      - run: bun install
+        working-directory: esign
+      - run: bunx vite build
+        working-directory: esign
+        env:
+          BASE_PATH: /esign/
+
+      # Build Template Builder
+      - run: bun install
+        working-directory: template-builder
+      - run: bunx vite build
+        working-directory: template-builder
+        env:
+          BASE_PATH: /template-builder/
+
+      # Assemble dist
+      - run: |
+          mkdir -p dist/docrag dist/esign dist/template-builder
+          cp -r rag/apps/web/dist/* dist/docrag/
+          cp -r esign/dist/* dist/esign/
+          cp -r template-builder/dist/* dist/template-builder/
+          cp dist-landing/index.html dist/
+
+      # Deploy
       - run: bunx wrangler pages deploy dist --project-name=superdoc-demos --commit-dirty=true
