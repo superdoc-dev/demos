@@ -320,7 +320,11 @@ async function handleQuery(request: Request, env: Env): Promise<Response> {
 		if (seen.has(targetId)) continue;
 		const chunk = chunks.find((c) => c.targetId === targetId);
 		if (!chunk) continue;
-		const meta = chunk.metadata ? JSON.parse(chunk.metadata) : {};
+		let meta: Record<string, unknown> = {};
+		try {
+			if (chunk.metadata) meta = JSON.parse(chunk.metadata);
+		} catch {}
+
 		const citation = {
 			index: citations.length + 1,
 			blockId: chunk.blockId,

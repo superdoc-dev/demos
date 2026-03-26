@@ -107,20 +107,6 @@ export function ChatPanel({ onCitationClick, disabled }: Props) {
 									Get cited answers from paragraphs, comments, and tracked
 									changes. Click a citation to see the source.
 								</span>
-								<div className="sample-questions">
-									{SAMPLE_QUESTIONS.map((q) => (
-										<button
-											type="button"
-											key={q}
-											className="sample-question"
-											onClick={() => {
-												setInput(q);
-											}}
-										>
-											{q}
-										</button>
-									))}
-								</div>
 							</>
 						)}
 					</div>
@@ -137,6 +123,23 @@ export function ChatPanel({ onCitationClick, disabled }: Props) {
 				))}
 				<div ref={bottomRef} />
 			</div>
+			{!disabled && (
+				<div className="sample-questions">
+					{SAMPLE_QUESTIONS.map((q) => (
+						<button
+							type="button"
+							key={q}
+							className="sample-question"
+							disabled={loading}
+							onClick={() => {
+								setInput(q);
+							}}
+						>
+							{q}
+						</button>
+					))}
+				</div>
+			)}
 			<div className="chat-input">
 				<input
 					placeholder="Ask about your documents..."

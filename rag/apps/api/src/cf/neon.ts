@@ -130,12 +130,6 @@ export function createNeonClient(databaseUrl: string) {
 			return Number(rows[0].count);
 		},
 
-		async getChunkIdsByDocument(documentId: number): Promise<string[]> {
-			const rows =
-				await sql`SELECT id FROM chunks WHERE document_id = ${documentId}`;
-			return rows.map((r: any) => r.id);
-		},
-
 		async deleteDocument(id: number): Promise<void> {
 			await sql`DELETE FROM documents WHERE id = ${id}`;
 		},

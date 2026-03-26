@@ -2,7 +2,7 @@ services:
   ingest:
     build:
       context: ../../..
-      dockerfile: rag/apps/ingest-service/Dockerfile
+      dockerfile: rag/apps/ingest/Dockerfile
     ports:
       - "4000:4000"
     environment:

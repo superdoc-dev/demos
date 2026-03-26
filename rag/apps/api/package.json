@@ -5,8 +5,7 @@
 	"scripts": {
 		"dev": "wrangler dev",
 		"deploy": "wrangler deploy",
-		"db:create": "wrangler d1 create docrag",
-		"db:migrate": "wrangler d1 execute docrag --file=schema.sql"
+		"db:migrate": "psql $DATABASE_URL -f schema.sql"
 	},
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.30.0",

@@ -42,7 +42,7 @@ DocRAG doesn't compete with these tools. It shows developers how to build someth
 - Preserves full document semantics: paragraphs, comments, tracked changes, and their positions
 - Citations resolve to exact elements, not pages or chunks
 - Click-to-scroll navigation into a live document viewer
-- Production architecture: Cloudflare Workers, D1, R2, Vectorize — not a notebook hack
+- Production architecture: Cloudflare Workers, PostgreSQL + pgvector, R2 — not a notebook hack
 - Open-source and forkable — use it as a starting point, not a dependency
 
 **Territory:** The space between "RAG tutorial" and "production document platform." Serious enough to fork. Clear enough to learn from.
@@ -127,7 +127,7 @@ We're not selling anything. We're showing what SuperDoc makes possible.
 - Your RAG pipeline should understand document structure, not destroy it.
 
 **Credibility**
-- Production architecture: Cloudflare Workers, D1, R2, Vectorize, Claude, OpenAI embeddings.
+- Production architecture: Cloudflare Workers, PostgreSQL + pgvector, R2, Claude, OpenAI embeddings.
 - Not a notebook. Not a tutorial. A deployable system.
 
 **Openness**

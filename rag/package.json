@@ -1,12 +1,15 @@
 {
 	"name": "docrag",
 	"private": true,
-	"workspaces": ["apps/*", "packages/*"],
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
 	"scripts": {
 		"dev": "bun run dev:api & bun run dev:web & bun run dev:ingest",
 		"dev:api": "bun run --cwd apps/api dev",
 		"dev:web": "bun run --cwd apps/web dev",
-		"dev:ingest": "bun run --cwd apps/ingest-service dev",
+		"dev:ingest": "bun run --cwd apps/ingest dev",
 		"build:web": "bun run --cwd apps/web build",
 		"deploy:api": "bun run --cwd apps/api deploy",
 		"deploy:web": "bun run --cwd apps/web deploy",

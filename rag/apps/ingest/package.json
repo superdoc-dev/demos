@@ -1,5 +1,5 @@
 {
-	"name": "@docrag/ingest-service",
+	"name": "@docrag/ingest",
 	"private": true,
 	"type": "module",
 	"scripts": {
