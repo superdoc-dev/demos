@@ -5,7 +5,7 @@ WORKDIR /app
 COPY rag/package.json rag/bun.lock* ./
 COPY rag/apps/ingest-service/package.json apps/ingest-service/
 COPY rag/packages/shared/package.json packages/shared/
-RUN bun install --frozen-lockfile --ignore-scripts
+RUN bun install --ignore-scripts
 
 # Copy source
 COPY rag/packages/shared/ packages/shared/
@@ -19,7 +19,7 @@ WORKDIR /app
 COPY rag/package.json rag/bun.lock* ./
 COPY rag/apps/ingest-service/package.json apps/ingest-service/
 COPY rag/packages/shared/package.json packages/shared/
-RUN bun install --frozen-lockfile --ignore-scripts --production
+RUN bun install --ignore-scripts --production
 
 COPY --from=build /app/packages/shared packages/shared
 COPY --from=build /app/apps/ingest-service apps/ingest-service
