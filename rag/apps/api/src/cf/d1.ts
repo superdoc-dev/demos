@@ -146,6 +146,18 @@ export function createD1Client(db: D1Database) {
 			};
 		},
 
+		async getChunkIdsByDocument(documentId: number): Promise<string[]> {
+			const result = await db
+				.prepare("SELECT id FROM chunks WHERE document_id = ?")
+				.bind(documentId)
+				.all();
+			return result.results.map((r: any) => r.id);
+		},
+
+		async deleteDocument(id: number): Promise<void> {
+			await db.prepare("DELETE FROM documents WHERE id = ?").bind(id).run();
+		},
+
 		async updateDocumentStatus(id: number, status: string): Promise<void> {
 			await db
 				.prepare("UPDATE documents SET status = ? WHERE id = ?")

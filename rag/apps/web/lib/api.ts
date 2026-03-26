@@ -55,6 +55,16 @@ export async function queryDocuments(question: string): Promise<QueryResult> {
 	return res.json();
 }
 
+export async function deleteDocument(id: number): Promise<void> {
+	const res = await fetch(`${API_BASE}/api/documents/${id}`, {
+		method: "DELETE",
+	});
+	if (!res.ok) {
+		const body = await res.json().catch(() => ({}));
+		throw new Error(body.error ?? `Delete failed (${res.status})`);
+	}
+}
+
 export async function listDocuments(): Promise<DocumentInfo[]> {
 	const res = await fetch(`${API_BASE}/api/documents`);
 	if (!res.ok) return [];

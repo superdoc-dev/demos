@@ -11,6 +11,10 @@ export function createR2Client(bucket: R2Bucket) {
 			return bucket.get(key);
 		},
 
+		async delete(key: string): Promise<void> {
+			await bucket.delete(key);
+		},
+
 		async exists(key: string): Promise<boolean> {
 			const head = await bucket.head(key);
 			return head !== null;

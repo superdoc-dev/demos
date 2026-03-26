@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { type DocumentInfo, ingestDocument, listDocuments } from "../lib/api";
+import {
+	type DocumentInfo,
+	deleteDocument,
+	ingestDocument,
+	listDocuments,
+} from "../lib/api";
 
 type FileEntry = {
 	key: string;
 	filename: string;
 	hash?: string;
 	docId?: number;
-	status: "ready" | "queued" | "extracting" | "error";
+	status: "ready" | "queued" | "extracting" | "deleting" | "error";
 	detail?: string;
 };
 
@@ -134,9 +139,24 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 		if (doc) onSelectDoc(doc);
 	}
 
+	async function handleDelete(e: React.MouseEvent, entry: FileEntry) {
+		e.stopPropagation();
+		if (!entry.docId) return;
+		updateEntry(entry.key, { status: "deleting" });
+		if (entry.docId === activeDocId) onSelectDoc({ id: 0 } as DocumentInfo);
+		try {
+			await deleteDocument(entry.docId);
+			setEntries((prev) => prev.filter((en) => en.key !== entry.key));
+		} catch (err) {
+			console.error("[delete] Failed:", err);
+			updateEntry(entry.key, { status: "ready" });
+		}
+	}
+
 	const STATUS_LABEL: Record<string, string> = {
 		queued: "Queued",
 		extracting: "Processing...",
+		deleting: "Removing...",
 		error: "Error",
 	};
 
@@ -165,25 +185,46 @@ export function FileSidebar({ activeDocId, onSelectDoc }: Props) {
 					<div className="file-empty">No documents yet</div>
 				)}
 				{entries.map((entry) => (
-					<button
-						type="button"
+					<div
 						key={entry.key}
-						className={`file-item ${entry.docId === activeDocId ? "active" : ""} ${entry.status !== "ready" ? "file-item--processing" : ""}`}
-						onClick={() => handleClick(entry)}
-						disabled={entry.status !== "ready"}
+						className={`file-item ${entry.docId === activeDocId && entry.status === "ready" ? "active" : ""} ${entry.status !== "ready" ? "file-item--processing" : ""}`}
 					>
-						<span className="file-item-name">
+						<button
+							type="button"
+							className="file-item-btn"
+							onClick={() => handleClick(entry)}
+							disabled={entry.status !== "ready"}
+						>
 							<span
 								className={`file-item-dot file-item-dot--${entry.status}`}
 							/>
-							{entry.filename}
-						</span>
+							<span className="file-item-label">{entry.filename}</span>
+						</button>
+						{entry.status === "ready" && entry.docId && (
+							<button
+								type="button"
+								className="file-item-delete"
+								onClick={(e) => handleDelete(e, entry)}
+								title="Remove document"
+							>
+								<svg
+									width="12"
+									height="12"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									strokeWidth="2"
+								>
+									<path d="M18 6L6 18M6 6l12 12" />
+								</svg>
+							</button>
+						)}
 						{entry.status !== "ready" && (
 							<span className="file-item-progress">
 								{entry.detail ?? STATUS_LABEL[entry.status]}
 							</span>
 						)}
-					</button>
+					</div>
 				))}
 			</div>
 		</div>

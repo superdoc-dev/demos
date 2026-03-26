@@ -20,6 +20,14 @@ export function createVectorizeClient(index: VectorizeIndex) {
 			}
 		},
 
+		async deleteByIds(ids: string[]): Promise<void> {
+			const batchSize = 1000;
+			for (let i = 0; i < ids.length; i += batchSize) {
+				const batch = ids.slice(i, i + batchSize);
+				await index.deleteByIds(batch);
+			}
+		},
+
 		async search(
 			queryVector: number[],
 			options: {

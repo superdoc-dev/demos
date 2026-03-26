@@ -15,7 +15,7 @@ interface Env {
 
 const CORS_HEADERS = {
 	"Access-Control-Allow-Origin": "*",
-	"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+	"Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
 	"Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
@@ -70,6 +70,12 @@ export default {
 						status: d.status,
 					})),
 				);
+			}
+
+			// DELETE /api/documents/:id — remove document, chunks, vectors, and file
+			const deleteMatch = url.pathname.match(/^\/api\/documents\/(\d+)$/);
+			if (deleteMatch && request.method === "DELETE") {
+				return handleDeleteDocument(Number(deleteMatch[1]), env);
 			}
 
 			// GET /api/documents/:id/file — serve from R2
@@ -374,6 +380,29 @@ async function handleQuery(request: Request, env: Env): Promise<Response> {
 	});
 
 	return json({ answer, citations });
+}
+
+async function handleDeleteDocument(id: number, env: Env): Promise<Response> {
+	const d1 = createD1Client(env.DB);
+	const r2 = createR2Client(env.DOCS_BUCKET);
+	const vectorize = createVectorizeClient(env.VECTORIZE);
+
+	const doc = await d1.getDocument(id);
+	if (!doc) return json({ error: "Not found" }, 404);
+
+	// Delete vectors from Vectorize
+	const chunkIds = await d1.getChunkIdsByDocument(id);
+	if (chunkIds.length > 0) {
+		await vectorize.deleteByIds(chunkIds);
+	}
+
+	// Delete document + chunks (cascades) from D1
+	await d1.deleteDocument(id);
+
+	// Delete file from R2
+	await r2.delete(doc.r2Key);
+
+	return json({ deleted: true, id });
 }
 
 async function handleDocFile(id: number, env: Env): Promise<Response> {
