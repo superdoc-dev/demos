@@ -19,7 +19,7 @@ WORKDIR /app
 COPY rag/package.json rag/bun.lock* ./
 COPY rag/apps/ingest-service/package.json apps/ingest-service/
 COPY rag/packages/shared/package.json packages/shared/
-RUN bun install --ignore-scripts --production
+RUN bun install --ignore-scripts
 
 COPY --from=build /app/packages/shared packages/shared
 COPY --from=build /app/apps/ingest-service apps/ingest-service
