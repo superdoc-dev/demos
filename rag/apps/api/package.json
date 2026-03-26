@@ -1,16 +1,16 @@
 {
-	"name": "@rag-demo/api",
+	"name": "@docrag/api",
 	"private": true,
 	"type": "module",
 	"scripts": {
 		"dev": "wrangler dev",
 		"deploy": "wrangler deploy",
-		"db:create": "wrangler d1 create rag-demo",
-		"db:migrate": "wrangler d1 execute rag-demo --file=schema.sql"
+		"db:create": "wrangler d1 create docrag",
+		"db:migrate": "wrangler d1 execute docrag --file=schema.sql"
 	},
 	"dependencies": {
 		"@anthropic-ai/sdk": "^0.30.0",
-		"@rag-demo/shared": "workspace:*"
+		"@docrag/shared": "workspace:*"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "^4.20250326.0",

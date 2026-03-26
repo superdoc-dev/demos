@@ -1,5 +1,5 @@
 {
-	"name": "@rag-demo/shared",
+	"name": "@docrag/shared",
 	"private": true,
 	"type": "module",
 	"exports": {

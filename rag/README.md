@@ -1,14 +1,16 @@
-# Document RAG with SuperDoc
+# DocRAG
 
-Ask questions across multiple `.docx` files. Get answers with citations that navigate to the exact paragraph, comment, or tracked change in the source document.
+Ask your documents. Get cited answers.
+
+Upload `.docx` files, ask questions in natural language, and get answers with citations that navigate to the exact paragraph, comment, or tracked change in the source document. Powered by [SuperDoc](https://superdoc.dev).
 
 ## How it Works
 
-1. **Upload** `.docx` files through the UI or CLI
+1. **Upload** `.docx` files through the UI
 2. **Extract** text, comments, and tracked changes using the [SuperDoc SDK](https://docs.superdoc.dev)
 3. **Chunk** each paragraph with its stable node ID, embed with OpenAI
 4. **Store** chunks in Cloudflare Vectorize, metadata in D1, files in R2
-5. **Query** — user asks a question, relevant chunks are retrieved via vector search
+5. **Query** — ask a question, relevant chunks are retrieved via vector search
 6. **Answer** — Claude generates a response with `[cite:ID]` references
 7. **Navigate** — click a citation to scroll to the source in the SuperDoc viewer
 
@@ -18,11 +20,10 @@ Ask questions across multiple `.docx` files. Get answers with citations that nav
 apps/
   api/              Cloudflare Worker — query, documents, file serving
   web/              React frontend — document viewer + chat sidebar
-  ingest/           CLI — extract + embed locally, upload to Worker
   ingest-service/   Docker service — automated extraction for VM deployment
 packages/
   shared/           SuperDoc extraction, chunking, embedding client
-docs/               Sample .docx files (fictional "Nexus Analytics" project)
+docs/               Sample .docx files
 ```
 
 ## Quick Start
@@ -42,10 +43,10 @@ bun install
 
 # Create Cloudflare resources
 cd apps/api
-npx wrangler d1 create rag-demo
+npx wrangler d1 create docrag
 # Copy the database_id into wrangler.toml
 
-npx wrangler d1 execute rag-demo --local --file=schema.sql
+npx wrangler d1 execute docrag --local --file=schema.sql
 npx wrangler vectorize create rag-chunks --dimensions=1536 --metric=cosine
 
 # Add secrets for local dev
@@ -64,26 +65,9 @@ bun run dev:api
 
 # Terminal 2: Frontend (Vite)
 bun run dev:web
-
-# Ingest sample documents
-bun ingest docs/nexus-prd.docx
-bun ingest docs/nexus-budget.docx
-bun ingest docs/nexus-legal-review.docx
-bun ingest docs/nexus-meeting-notes.docx
-bun ingest docs/nexus-customer-research.docx
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
-
-### Sample Questions
-
-Try these across the Nexus Analytics documents:
-
-- "What are the biggest risks to the beta launch?"
-- "How much will the NLQ feature cost?"
-- "What was decided about HIPAA?"
-- "What do customers think about anomaly detection?"
-- "Who is HealthBridge and why do they matter?"
 
 ## Deploy
 
@@ -94,7 +78,7 @@ Try these across the Nexus Analytics documents:
 cd apps/api
 wrangler secret put OPENAI_API_KEY
 wrangler secret put ANTHROPIC_API_KEY
-wrangler d1 execute rag-demo --remote --file=schema.sql
+wrangler d1 execute docrag --remote --file=schema.sql
 wrangler deploy
 
 # Deploy frontend to Cloudflare Pages
@@ -107,15 +91,19 @@ bun run deploy:web
 For automated ingestion, deploy the Docker service to a VM:
 
 ```bash
-docker build -f apps/ingest-service/Dockerfile -t rag-ingest .
+docker build -f apps/ingest-service/Dockerfile -t docrag-ingest .
 docker run -d \
-  -e API_URL=https://rag-demo-api.<account>.workers.dev \
+  -e API_URL=https://docrag-api.<account>.workers.dev \
   -e OPENAI_API_KEY=sk-... \
   -e AUTH_TOKEN=your-shared-secret \
   -p 4000:4000 \
-  rag-ingest
+  docrag-ingest
 ```
 
 ## License
 
 MIT
+
+---
+
+Built by [SuperDoc](https://superdoc.dev)

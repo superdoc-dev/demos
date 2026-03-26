@@ -1,2 +1,2 @@
-name = "rag-demo-web"
+name = "docrag-web"
 pages_build_output_dir = "dist"

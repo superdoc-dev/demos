@@ -1,5 +1,5 @@
 {
-	"name": "rag-demo",
+	"name": "docrag",
 	"private": true,
 	"workspaces": ["apps/*", "packages/*"],
 	"scripts": {

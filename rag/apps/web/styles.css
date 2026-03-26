@@ -1,18 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
 :root {
-	--blue: #e67e22;
-	--blue-hover: #d35400;
-	--blue-subtle: #fef7ed;
-	--text: #212121;
-	--text-2: #666;
-	--text-3: #999;
-	--border: #dbdbdb;
-	--border-light: #eee;
-	--bg: #fff;
-	--canvas: #fafaf9;
+	--accent: #0070f3;
+	--accent-hover: #005cc5;
+	--accent-subtle: #f0f7ff;
+	--text: #000000;
+	--text-2: #666666;
+	--text-3: #888888;
+	--border: #e5e5e5;
+	--border-light: #f0f0f0;
+	--bg: #ffffff;
+	--canvas: #fafafa;
 	--surface: #f5f5f5;
-	--success: #00853d;
+	--success: #50e3c2;
 	--deletion: #cb0e47;
 }
 
@@ -22,8 +22,7 @@
 	box-sizing: border-box;
 }
 body {
-	font-family:
-		"DM Sans", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+	font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
 	height: 100vh;
 	overflow: hidden;
 	background: var(--canvas);
@@ -59,7 +58,7 @@ body {
 .topbar-mark {
 	width: 22px;
 	height: 22px;
-	background: var(--blue);
+	background: var(--text);
 	border-radius: 5px;
 	color: white;
 	display: flex;
@@ -142,7 +141,7 @@ body {
 	background: var(--surface);
 }
 .file-item.active {
-	background: var(--blue-subtle);
+	background: var(--accent-subtle);
 }
 .file-item-name {
 	font-size: 13px;
@@ -162,7 +161,7 @@ body {
 .file-item-dot {
 	width: 7px;
 	height: 7px;
-	background: var(--blue);
+	background: var(--accent);
 	border-radius: 50%;
 	flex-shrink: 0;
 }
@@ -170,7 +169,7 @@ body {
 	background: var(--border);
 }
 .file-item-dot--extracting {
-	background: var(--blue);
+	background: var(--accent);
 	animation: pulse 1s infinite;
 }
 .file-item-dot--error {
@@ -230,7 +229,7 @@ body {
 	flex-shrink: 0;
 }
 .viewer-header-icon {
-	color: var(--blue);
+	color: var(--accent);
 }
 .viewer-container {
 	flex: 1;
@@ -299,8 +298,8 @@ body {
 }
 .message-user {
 	align-self: flex-end;
-	background: var(--blue-subtle);
-	color: var(--blue-hover);
+	background: var(--text);
+	color: #ffffff;
 	padding: 10px 14px;
 	border-radius: 8px;
 	font-size: 13px;
@@ -323,7 +322,7 @@ body {
 	content: "";
 	width: 6px;
 	height: 6px;
-	background: var(--blue);
+	background: var(--accent);
 	border-radius: 50%;
 	animation: pulse 1s infinite;
 }
@@ -342,11 +341,11 @@ body {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--blue);
+	background: var(--accent);
 	color: white;
-	font-family: "Inter", sans-serif;
+	font-family: "JetBrains Mono", monospace;
 	font-size: 10px;
-	font-weight: 600;
+	font-weight: 500;
 	min-width: 18px;
 	height: 18px;
 	padding: 0 4px;
@@ -360,7 +359,7 @@ body {
 	transition: background 0.15s;
 }
 .citation-link:hover {
-	background: var(--blue-hover);
+	background: var(--accent-hover);
 }
 
 /* ── Citation cards ── */
@@ -377,7 +376,7 @@ body {
 	background: var(--canvas);
 	border: 1px solid var(--border-light);
 	border-radius: 6px;
-	border-left: 3px solid var(--blue);
+	border-left: 3px solid var(--accent);
 	cursor: pointer;
 	transition:
 		border-color 0.15s,
@@ -397,10 +396,11 @@ body {
 .citation-card-number {
 	width: 18px;
 	height: 18px;
-	background: var(--blue);
+	background: var(--accent);
 	color: white;
+	font-family: "JetBrains Mono", monospace;
 	font-size: 10px;
-	font-weight: 600;
+	font-weight: 500;
 	border-radius: 100px;
 	display: flex;
 	align-items: center;
@@ -427,6 +427,7 @@ body {
 	gap: 6px;
 }
 .citation-card-type {
+	font-family: "JetBrains Mono", monospace;
 	font-size: 9px;
 	font-weight: 500;
 	text-transform: uppercase;
@@ -468,11 +469,11 @@ body {
 	color: var(--text-3);
 }
 .chat-input input:focus {
-	border-color: var(--blue);
+	border-color: var(--accent);
 }
 .btn-send {
 	padding: 8px 16px;
-	background: var(--blue);
+	background: var(--text);
 	color: white;
 	border: none;
 	border-radius: 8px;
@@ -483,7 +484,7 @@ body {
 	transition: background 0.15s;
 }
 .btn-send:hover:not(:disabled) {
-	background: var(--blue-hover);
+	background: #333333;
 }
 .btn-send:disabled {
 	opacity: 0.4;

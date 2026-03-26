@@ -33,9 +33,9 @@ function App() {
 		<div className="app">
 			<header className="topbar">
 				<div className="topbar-logo">
-					<div className="topbar-mark">N</div>
+					<div className="topbar-mark">D</div>
 					<span className="topbar-name">
-						Nexus Analytics{" "}
+						DocRAG{" "}
 						<span className="topbar-by">
 							by{" "}
 							<a

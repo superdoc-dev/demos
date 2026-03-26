@@ -1,5 +1,5 @@
 {
-	"name": "@rag-demo/web",
+	"name": "@docrag/web",
 	"private": true,
 	"type": "module",
 	"scripts": {
@@ -7,7 +7,7 @@
 		"dev:bun": "bun --hot index.ts",
 		"build": "vite build",
 		"preview": "vite preview",
-		"deploy": "bun run build && wrangler pages deploy dist --project-name=rag-demo-web"
+		"deploy": "bun run build && wrangler pages deploy dist --project-name=docrag-web"
 	},
 	"dependencies": {
 		"react": "^19.0.0",

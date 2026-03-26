@@ -5,7 +5,7 @@ import {
 	buildChunks,
 	createEmbeddingClient,
 	extractDocument,
-} from "@rag-demo/shared";
+} from "@docrag/shared";
 
 const PORT = Number(process.env.PORT ?? 4000);
 const API_URL = process.env.API_URL;
@@ -18,7 +18,7 @@ if (!OPENAI_KEY) {
 }
 if (!API_URL) {
 	console.error(
-		"Missing API_URL (e.g. https://rag-demo-api.<account>.workers.dev)",
+		"Missing API_URL (e.g. https://docrag-api.<account>.workers.dev)",
 	);
 	process.exit(1);
 }

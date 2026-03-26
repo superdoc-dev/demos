@@ -81,10 +81,10 @@ export function ChatPanel({ onCitationClick }: Props) {
 			<div className="chat-body">
 				{messages.length === 0 && (
 					<div className="chat-empty">
-						<span className="chat-empty-title">Ask a question</span>
+						<span className="chat-empty-title">Ask your documents</span>
 						<span className="chat-empty-hint">
-							SuperDoc extracts text, comments, and tracked changes for
-							AI-powered search.
+							Get cited answers from paragraphs, comments, and tracked changes.
+							Click a citation to see the source.
 						</span>
 					</div>
 				)}

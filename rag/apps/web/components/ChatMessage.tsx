@@ -22,7 +22,7 @@ export function ChatMessage({
 	onCitationClick,
 }: Props) {
 	if (loading) {
-		return <div className="message message-loading">Analyzing documents</div>;
+		return <div className="message message-loading">Searching documents</div>;
 	}
 	if (role === "user") {
 		return <div className="message message-user">{content}</div>;

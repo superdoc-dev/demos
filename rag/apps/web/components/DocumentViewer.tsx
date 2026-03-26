@@ -2,32 +2,29 @@ import { useEffect, useRef, useState } from "react";
 import { createTheme, SuperDoc } from "superdoc";
 import "superdoc/style.css";
 
-// Nexus Analytics brand theme for the SuperDoc editor
-const nexusTheme = createTheme({
-	name: "nexus",
-	font: "'DM Sans', 'Inter', sans-serif",
+const docragTheme = createTheme({
+	name: "docrag",
+	font: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
 	colors: {
-		action: "#E67E22",
-		actionHover: "#D35400",
+		action: "#0070F3",
+		actionHover: "#005CC5",
 		actionText: "#FFFFFF",
 		bg: "#FFFFFF",
-		text: "#1E293B",
-		textMuted: "#64748B",
-		border: "#E2E8F0",
+		text: "#000000",
+		textMuted: "#888888",
+		border: "#E5E5E5",
 	},
 	vars: {
-		// Comment card styling — override computed vars directly
-		"--sd-ui-comments-card-bg": "#FEF7ED",
-		"--sd-ui-comments-card-hover-bg": "#FEF0DB",
+		"--sd-ui-comments-card-bg": "#F0F7FF",
+		"--sd-ui-comments-card-hover-bg": "#E0EFFF",
 		"--sd-ui-comments-card-active-bg": "#FFFFFF",
-		"--sd-ui-comments-card-active-border": "#E67E22",
-		"--sd-ui-comments-card-shadow": "0px 4px 12px 0px rgba(230, 126, 34, 0.12)",
-		// Comment text highlights in the document
-		"--sd-comments-highlight-external": "#E67E2240",
-		"--sd-comments-highlight-external-active": "#E67E2266",
-		"--sd-comments-highlight-external-faded": "#E67E2220",
-		"--sd-comments-highlight-hover": "#E67E2255",
-		"--sd-comments-selection-background": "#E67E2255",
+		"--sd-ui-comments-card-active-border": "#0070F3",
+		"--sd-ui-comments-card-shadow": "0px 4px 12px 0px rgba(0, 112, 243, 0.12)",
+		"--sd-comments-highlight-external": "#0070F340",
+		"--sd-comments-highlight-external-active": "#0070F366",
+		"--sd-comments-highlight-external-faded": "#0070F320",
+		"--sd-comments-highlight-hover": "#0070F355",
+		"--sd-comments-selection-background": "#0070F355",
 	},
 });
 
@@ -66,7 +63,7 @@ export function DocumentViewer({ documentId, citation, filename }: Props) {
 		if (!docFile || !containerRef.current) return;
 
 		superdocRef.current?.destroy();
-		containerRef.current.classList.add(nexusTheme);
+		containerRef.current.classList.add(docragTheme);
 		superdocRef.current = new SuperDoc({
 			selector: containerRef.current,
 			document: docFile,

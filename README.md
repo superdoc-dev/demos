@@ -6,9 +6,9 @@ Each demo is a standalone app that showcases a real-world use case: extracting d
 
 ## Demos
 
-### [`rag/`](./rag) — Document RAG with Citations
+### [`rag/`](./rag) — DocRAG
 
-Ask questions across multiple `.docx` files. The AI answers with citations that scroll to the exact paragraph, comment, or tracked change in the source document.
+Ask your documents. Get cited answers. Upload `.docx` files and get AI-powered answers with citations that scroll to the exact paragraph, comment, or tracked change in the source document.
 
 **Stack**: Cloudflare Workers + R2 + D1 + Vectorize, React, SuperDoc, Claude, OpenAI embeddings
 

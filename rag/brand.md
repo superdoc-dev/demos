@@ -1,94 +1,89 @@
 ---
-name: "Nexus Analytics"
-tagline: "Your data, answered."
+name: "DocRAG"
+tagline: "Ask your documents. Get cited answers."
 version: 1
 language: en
 ---
 
-# Nexus Analytics
+# DocRAG
 
 ## Strategy
 
 ### Overview
 
-Nexus Analytics is a real-time business intelligence platform for mid-market SaaS companies. It connects to the tools you already use — Stripe, HubSpot, Salesforce, Snowflake — and turns raw operational data into dashboards, alerts, and answers without requiring a data team.
+DocRAG is an open-source reference implementation that shows how to build document Q&A with precise, clickable citations — powered by SuperDoc.
 
-Nexus exists because mid-market companies (50–500 employees) are stuck between enterprise BI tools they can't afford to staff and spreadsheets that are stale by the time they reach a decision-maker. 78% of companies in this segment make board-level decisions based on manually assembled spreadsheets.
+It exists because every RAG demo stops at "here's an answer." DocRAG goes further: it scrolls you to the exact paragraph, comment, or tracked change where the answer lives. That's the part that's hard. That's the part SuperDoc makes easy.
 
-**Before Nexus**: Your VP of Sales updates a spreadsheet every Monday. By Wednesday it's wrong. Tableau sits unused because three people know how to use it. You pay $45,000/year for dashboards nobody opens.
+**The problem it solves:** Document RAG pipelines treat `.docx` files as flat text. They strip comments, ignore tracked changes, and lose the structure that makes documents useful. When you ask a question and get an answer, there's no way to verify it — no citation, no source, no proof. You're trusting a black box.
 
-**After Nexus**: Connect Stripe. Get your MRR dashboard in minutes. Ask "what's our churn by cohort?" in plain English. Get an answer with the SQL underneath so you can trust it.
+**The transformation:**
+- Before: "The AI says X" → manually search 200 pages to verify
+- After: "The AI says X `[3]`" → click → scroll to the exact tracked change in the original document
 
-**Long-term ambition**: Nexus becomes the default way mid-market companies understand their business — the analytics layer that replaces both the analyst and the spreadsheet.
+**Long-term ambition:** The definitive reference for building document-aware AI applications on SuperDoc.
 
 ### Positioning
 
-**Category**: Self-serve analytics for mid-market SaaS. Not enterprise BI. Not a dashboard builder. Not a data warehouse.
+**Category:** Open-source RAG reference implementation for Word documents.
 
-**What Nexus is NOT**:
-- Not Tableau (you don't need a BI analyst to use it)
-- Not a spreadsheet replacement (it connects to your real data, live)
-- Not a data warehouse (it reads from yours — Snowflake, BigQuery, Postgres)
-- Not an AI chatbot that guesses (it writes SQL, shows its work, lets you verify)
+**What DocRAG is NOT:**
+- Not a product. Not SaaS. Not a startup.
+- Not a generic chatbot wrapper.
+- Not a PDF tool.
+- Not a toy demo with fake data and no real architecture.
 
-**Competitive landscape**:
-- Enterprise BI (Tableau, Looker, Power BI): Powerful but requires specialized skills and six-figure contracts
-- Lightweight dashboards (Chartio successors, Metabase): Developer-friendly but still need SQL knowledge
-- AI-first analytics (emerging): Promise natural language but lack transparency — you can't see the query
-- Spreadsheets (Excel, Sheets): Universal but manual, stale, and error-prone
+**Competitive landscape:**
+The "chat with your documents" space has 50+ tools (ChatPDF, NotebookLM, Unriddle, Humata). They all share the same limitation: documents go in, flat text comes out. Citations mean "page 12" at best. Comments and tracked changes — the parts where real decisions happen — are invisible.
 
-Nexus sits between lightweight dashboards and AI-first tools: natural language access with full SQL transparency, designed for operators who need answers, not analysts.
+DocRAG doesn't compete with these tools. It shows developers how to build something better.
 
-**Structural differentiators**:
-- Zero-config dashboards from connected data sources (Stripe → MRR in minutes)
-- Natural language queries that show the SQL (trust through transparency)
-- 15-minute data refresh, not weekly batch jobs
-- No BI analyst required — built for operators, not data teams
-- Tiered pricing a startup can afford ($299–$1,999/mo)
+**Structural differentials:**
+- Preserves full document semantics: paragraphs, comments, tracked changes, and their positions
+- Citations resolve to exact elements, not pages or chunks
+- Click-to-scroll navigation into a live document viewer
+- Production architecture: Cloudflare Workers, D1, R2, Vectorize — not a notebook hack
+- Open-source and forkable — use it as a starting point, not a dependency
+
+**Territory:** The space between "RAG tutorial" and "production document platform." Serious enough to fork. Clear enough to learn from.
 
 ### Personality
 
-**Dominant archetype**: The Clear-Eyed Operator — pragmatic, direct, gets to the answer fast. Earns trust by showing the work, not hiding behind AI magic.
+**Archetype:** The Engineer's Notebook — precise, generous, quietly impressive.
 
-**Attributes**:
-- Clear
-- Trustworthy
-- Fast
-- Pragmatic
-- Warm (not corporate)
+**Attributes:** Technical, clear, minimal, credible, generous, sharp.
 
-**What Nexus IS**:
-- The analytics tool your whole company actually uses
-- Answers first, configuration later
-- Transparent about how it gets its answers
-- Designed for the person who currently maintains the spreadsheet
+**What DocRAG is:**
+- A working system you can deploy today
+- Honest about what it does and what it doesn't
+- Built to be read, forked, and extended
+- Proof that document RAG can be done right
 
-**What Nexus is NOT**:
-- A tool for data engineers
-- Impressive in demos but fragile on real data
-- Hiding complexity behind "AI magic"
-- Another dashboard nobody logs into
+**What DocRAG is not:**
+- Flashy
+- Salesy
+- Oversimplified
+- A pitch deck dressed as code
 
 ### Promise
 
-Your data. Answered. In plain English. With the SQL underneath.
-No analysts required. No week-old spreadsheets. No six-figure contracts.
+The code is real. The architecture is production-grade. The citations actually work.
 
-**Base message**: Nexus gives mid-market SaaS companies real-time answers about their business without a data team.
+**Base message:** DocRAG shows what's possible when your RAG pipeline understands documents — not just text.
 
-**Synthesizing phrase**: Nexus exists so every operator can ask their data a question and trust the answer.
+**Synthesizing phrase:** Documents have structure. Your RAG pipeline should too.
 
 ### Guardrails
 
-**Tone**: Clear. Warm. Direct. Honest. Operator-friendly.
+**Tone:** Technical, direct, minimal, confident, generous.
 
-**What the brand cannot be**:
-- A tool that hides how it works
-- Enterprise software that requires a sales call to understand pricing
-- A product that's more impressive in the demo than in production
-- Marketing that uses "AI-powered" as a feature instead of explaining what the AI does
+**What DocRAG cannot be:**
+- A marketing demo that only works in a screencast
+- Vaporware with aspirational screenshots
+- Enterprise-speak aimed at buyers instead of builders
+- Anything that requires a "book a demo" button
 
-**Litmus test**: If your ops lead wouldn't say it in a standup, don't put it on the website.
+**Litmus test:** If a senior engineer wouldn't share it with their team, it's not good enough.
 
 ---
 
@@ -96,82 +91,87 @@ No analysts required. No week-old spreadsheets. No six-figure contracts.
 
 ### Identity
 
-We build analytics for the people who actually run the business. Not the data team — the ops lead, the VP of Sales, the CEO who checks the numbers before a board meeting.
+We build reference implementations that show how document AI should work. Not abstractions. Not wrappers. Working systems with real architectures that you can deploy, read, and extend.
 
-We got tired of watching smart people make important decisions from a spreadsheet that was already wrong. So we built Nexus: connect your tools, get dashboards immediately, ask questions in English, see the SQL so you know it's right.
+DocRAG is what happens when you stop treating Word documents as flat text. Comments become searchable. Tracked changes become citable. Every answer links back to its source — not a page number, but the exact element in the original document.
 
-We're not trying to replace your data warehouse or compete with Tableau. We're trying to make sure the person making the decision has the right number, right now.
+We're not selling anything. We're showing what SuperDoc makes possible.
 
-**Essence**: Answers you can trust, from the data you already have.
+**Essence:** Cited, not claimed.
 
 ### Tagline & Slogans
 
-**Primary tagline**: Your data, answered.
-_Use on homepage hero, social bios, pitch decks._
+**Primary tagline:** Ask your documents. Get cited answers.
+*Use on: README header, landing page hero, social cards.*
 
-**Alternatives**:
-- Ask your business a question.
-- Real numbers. Right now.
-- Analytics without the analyst.
+**Alternatives:**
+- Document Q&A with proof.
+- RAG that cites its sources.
+- Every answer has an address.
 
-**Context-specific slogans**:
-- Homepage: "Connect. Ask. Decide."
-- NLQ feature: "Ask in English. Verify in SQL."
-- Pricing: "Starts at $299. No sales call required."
-- Churn context: "Know your churn rate right now, not last Tuesday's."
-- Trust angle: "We show the SQL. You decide if it's right."
+**Slogans for different contexts:**
+- README: "Open-source document Q&A with clickable citations — powered by SuperDoc."
+- GitHub description: "Reference RAG implementation with precise document citations."
+- Technical talks: "Your RAG pipeline drops comments and tracked changes. This one doesn't."
+- Social: "Click the citation. See the source. That's how document RAG should work."
+- Developer pitch: "Fork it. Deploy it. Ship document Q&A that actually cites its sources."
 
 ### Message Pillars
 
-**Clarity**
-- Your dashboards generate themselves. Connect Stripe, see MRR in minutes.
-- Ask "what's our churn by cohort?" Get an answer, not a loading spinner.
+**Precision**
+- Citations resolve to exact paragraphs, comments, and tracked changes.
+- Click a citation, scroll to the source. No manual searching.
 
-**Trust**
-- Every NLQ answer shows the SQL it ran. Verify it yourself.
-- We don't hide behind "AI-powered." We tell you exactly what the AI does.
+**Structure**
+- Documents aren't flat text. DocRAG preserves comments, tracked changes, and element positions.
+- Your RAG pipeline should understand document structure, not destroy it.
 
-**Speed**
-- 15-minute data refresh. Not weekly exports. Not overnight batch jobs.
-- The number you see is the number that's true right now.
+**Credibility**
+- Production architecture: Cloudflare Workers, D1, R2, Vectorize, Claude, OpenAI embeddings.
+- Not a notebook. Not a tutorial. A deployable system.
 
-**Accessibility**
-- Built for ops leads, not data engineers.
-- If you can write a Slack message, you can query your data.
+**Openness**
+- Open-source. Forkable. Designed to be a starting point.
+- Read the code. Understand the patterns. Build your own.
 
 ### Phrases
 
-- "Ask in English. Verify in SQL."
-- "Connect. Ask. Decide."
-- "The spreadsheet is already wrong."
-- "Your Tableau license deserves better."
-- "Real numbers. Right now."
-- "We show our work."
-- "Analytics without the analyst."
-- "Fifteen minutes, not fifteen days."
+- "Every answer has an address."
+- "Cited, not claimed."
+- "Documents have structure. Your RAG pipeline should too."
+- "Click the citation. See the source."
+- "Comments are content. Tracked changes are context. DocRAG indexes both."
+- "The answer is on page 47 somewhere" is not a citation."
+- "Fork it. Ship it. Cite it."
 
 ### Tonal Rules
 
-1. Write like you're explaining something to the ops lead at a Series B company. Smart, busy, low patience for jargon.
-2. Short sentences. If it has a semicolon, split it.
-3. Show the number. "15-minute refresh" not "near-real-time." "$299/month" not "affordable pricing."
-4. Name the pain. "Your spreadsheet is a week old" hits harder than "stale data."
-5. Transparency is the product. Always show how the answer was derived.
-6. Warm, not cute. Professional, not corporate. Confident, not arrogant.
-7. "You" not "we." The customer is the hero.
-8. Acknowledge what we're not. "We're not trying to replace Snowflake — we read from it."
-9. Demo-quality equals production-quality. Never promise something that only works in a demo.
-10. Questions are fine. "What if your whole team could query the data?" is better than "Empower your team with data democratization."
+1. Write like a README, not a landing page.
+2. Technical precision over marketing polish.
+3. Short sentences. Active voice. No filler.
+4. Show the architecture. Show the code. Let the work speak.
+5. Generous with knowledge — explain the "why," not just the "how."
+6. Confident, not boastful. The demo speaks for itself.
+7. Respect the reader's intelligence. No hand-holding, no overselling.
+8. Specifics over superlatives. "Navigates to the exact paragraph" not "powerful AI-driven experience."
+9. Acknowledge limitations openly. What it doesn't do is as important as what it does.
+10. If it sounds like a SaaS landing page, rewrite it.
+
+**Identity boundaries:**
+- We are not a product company pitching enterprise buyers.
+- We are not a tutorial that oversimplifies to the point of uselessness.
+- We are not a wrapper around an API call.
+- We are not competing with ChatPDF. We're showing developers how to build something better.
 
 | We Say | We Never Say |
 |---|---|
-| "Ask your data a question" | "Leverage AI-driven insights" |
-| "$299/month, no sales call" | "Contact us for enterprise pricing" |
-| "Shows the SQL underneath" | "Powered by proprietary AI" |
-| "15-minute refresh" | "Near-real-time data synchronization" |
-| "Built for ops leads" | "Enterprise-grade analytics platform" |
-| "Connect Stripe, see MRR" | "Seamless integration with your data stack" |
-| "We don't know yet — that feature is coming in Q1" | "Coming soon to our innovation roadmap" |
+| "Citations resolve to exact elements" | "AI-powered intelligent document search" |
+| "Fork it, deploy it" | "Request a demo" |
+| "Preserves comments and tracked changes" | "Leverages cutting-edge NLP" |
+| "Built on Cloudflare Workers" | "Enterprise-grade cloud infrastructure" |
+| "Open-source reference implementation" | "Industry-leading solution" |
+| "Click to scroll to the source" | "Seamless document experience" |
+| "Production architecture" | "Best-in-class platform" |
 
 ---
 
@@ -179,59 +179,35 @@ _Use on homepage hero, social bios, pitch decks._
 
 ### Colors
 
-**Primary — Nexus Amber**
-`#E67E22` — Warm, confident, stands out against data-heavy interfaces. Used for CTAs, active states, key metrics.
+**Primary:** `#000000` — Black. Text, headings, primary UI.
+**Secondary:** `#FAFAFA` — Near-white. Backgrounds, cards.
+**Accent:** `#0070F3` — Vercel blue. Links, CTAs, interactive elements.
+**Muted:** `#888888` — Gray. Secondary text, borders, metadata.
+**Success:** `#50E3C2` — Teal. Status indicators, citations found.
+**Surface:** `#F5F5F5` — Light gray. Code blocks, sidebar backgrounds.
 
-**Primary dark**
-`#D35400` — Hover states, emphasis.
+**Usage rules:**
+- Accent color for interactive elements only — links, buttons, citation highlights.
+- Black and white carry 90% of the interface. Color is punctuation, not decoration.
+- Avoid warm colors. The palette is cool and neutral.
 
-**Secondary — Slate**
-`#334155` — Headings, primary text, navigation. Grounded and readable.
-
-**Accent — Teal**
-`#0D9488` — Success states, positive metrics (MRR up, new customers). Complementary to amber.
-
-**Supporting palette**:
-| Role | Hex | Usage |
-|---|---|---|
-| Background | `#FAFAF9` | Page canvas, warm neutral |
-| Surface | `#FFFFFF` | Cards, panels, data tables |
-| Border | `#E2E8F0` | Dividers, input borders |
-| Text primary | `#1E293B` | Headings, body |
-| Text secondary | `#64748B` | Labels, metadata |
-| Error | `#DC2626` | Alerts, churn indicators |
-| Positive | `#059669` | Growth metrics, success |
-
-**Colors to avoid**: SuperDoc Blue (`#1355FF`) — that's SuperDoc's brand, not Nexus's. Avoid pure blue as a primary to prevent confusion when the demo shows both brands together. Avoid neon or saturated colors that feel like a consumer app.
+**Avoid:** Gradients, neon colors, brand purples/oranges that signal "startup energy."
 
 ### Typography
 
-**Display / UI — DM Sans**
-Weights: Regular (400), Medium (500), Bold (700)
-Usage: Headings, UI text, dashboards. Slightly rounded, modern, warm without being playful.
+**Display:** Inter — Semi-bold (600). Headings, hero text, navigation.
+**Body:** Inter — Regular (400). Paragraphs, descriptions, documentation.
+**Mono:** JetBrains Mono — Regular (400). Code blocks, technical specs, citations, terminal output.
 
-**Body — Inter**
-Weights: Regular (400), Medium (500)
-Usage: Body text, documentation, long-form content.
-
-**Monospace — JetBrains Mono**
-Weight: Regular (400)
-Usage: SQL queries, code snippets, NLQ results.
-
-| Level | Size | Weight | Font |
-|---|---|---|---|
-| Page heading | 32px | Bold | DM Sans |
-| Section heading | 22px | Bold | DM Sans |
-| Subsection | 18px | Medium | DM Sans |
-| Body | 15px | Regular | Inter |
-| Small | 13px | Regular | Inter |
-| Code / SQL | 13px | Regular | JetBrains Mono |
-| Metric (large) | 36px | Bold | DM Sans |
+**Rules:**
+- Display and body are the same family. Hierarchy comes from weight and size, not font changes.
+- Mono is used generously — this is a technical product. Code is not decorative.
+- Default body size: 16px. Line height: 1.6. Generous whitespace.
 
 ### Style
 
-**Design keywords**: Warm. Clean. Data-forward. Trustworthy. Operator-grade. Not flashy.
+**Design keywords:** Minimal, systematic, technical, clean, spacious, monochrome, precise.
 
-**Reference brands**: Linear (craft), Stripe (clarity), Notion (warmth), Posthog (developer-honest).
+**Reference brands:** Vercel (developer tools aesthetic), Linear (information density done right), Resend (technical product, clean presentation), Stripe Docs (generous technical documentation).
 
-**Direction**: The visual identity should feel like a product you'd trust with your board numbers. Clean data presentation, generous whitespace, warm neutrals with amber accents on key actions. Dashboards should feel like a well-organized desk, not a cockpit. The warmth comes from the palette and typography — amber is confident without being aggressive, DM Sans is modern without being cold. No gradients in the product UI. No decorative elements. Every pixel earns its place by communicating data or guiding action.
+**Direction:** The visual identity communicates system and precision. Every element earns its place. Whitespace is a feature. The interface should feel like well-organized source code — structured, scannable, nothing wasted.

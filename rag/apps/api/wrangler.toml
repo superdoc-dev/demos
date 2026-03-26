@@ -1,4 +1,4 @@
-name = "rag-demo-api"
+name = "docrag-api"
 main = "src/worker.ts"
 compatibility_date = "2026-03-26"
 compatibility_flags = ["nodejs_compat"]
