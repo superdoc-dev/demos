@@ -72,14 +72,16 @@ body {
 	font-size: 14px;
 	font-weight: 600;
 }
-.topbar-sep {
-	width: 1px;
-	height: 18px;
-	background: var(--border);
+.topbar-by {
+	font-weight: 500;
+	color: var(--text-3);
 }
-.topbar-sub {
-	font-size: 13px;
-	color: var(--text-2);
+.topbar-by a {
+	color: inherit;
+	text-decoration: none;
+}
+.topbar-by a:hover {
+	text-decoration: underline;
 }
 
 .main {

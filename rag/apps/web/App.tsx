@@ -34,10 +34,20 @@ function App() {
 			<header className="topbar">
 				<div className="topbar-logo">
 					<div className="topbar-mark">N</div>
-					<span className="topbar-name">Nexus Analytics</span>
+					<span className="topbar-name">
+						Nexus Analytics{" "}
+						<span className="topbar-by">
+							by{" "}
+							<a
+								href="https://superdoc.dev"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								SuperDoc
+							</a>
+						</span>
+					</span>
 				</div>
-				<span className="topbar-sep" />
-				<span className="topbar-sub">Document Intelligence</span>
 			</header>
 			<main className="main">
 				<FileSidebar activeDocId={activeDocId} onSelectDoc={handleSelectDoc} />

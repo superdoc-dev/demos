@@ -64,19 +64,12 @@ export async function extractDocument(
 		const PARA_LIMIT = 2000;
 		const HEADING_LIMIT = 500;
 
+		const findOpts = (nodeType: string, limit: number) =>
+			({ type: "node", nodeType, includeNodes: true, limit }) as any;
+
 		const [parasResult, headingsResult] = await Promise.all([
-			doc.find({
-				type: "node",
-				nodeType: "paragraph",
-				includeNodes: true,
-				limit: PARA_LIMIT,
-			}),
-			doc.find({
-				type: "node",
-				nodeType: "heading",
-				includeNodes: true,
-				limit: HEADING_LIMIT,
-			}),
+			doc.find(findOpts("paragraph", PARA_LIMIT)),
+			doc.find(findOpts("heading", HEADING_LIMIT)),
 		]);
 
 		if (parasResult.items.length === PARA_LIMIT) {
