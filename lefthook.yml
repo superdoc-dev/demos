@@ -1,0 +1,9 @@
+pre-commit:
+  commands:
+    lint:
+      root: rag/
+      run: bunx biome check .
+    typecheck:
+      root: rag/
+      glob: "*.{ts,tsx}"
+      run: bunx tsc --noEmit
