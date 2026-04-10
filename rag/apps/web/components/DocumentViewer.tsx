@@ -78,52 +78,12 @@ export function DocumentViewer({ documentId, citation, filename }: Props) {
 		};
 	}, [docFile]);
 
-	// Step 3: Navigate to citation using SuperDoc search
-	// Depends on docFile so it re-runs after a cross-doc switch loads the new viewer
+	// Step 3: Navigate to citation by ID
 	useEffect(() => {
 		if (!citation || !docFile || !superdocRef.current) return;
 
 		const sd = superdocRef.current;
-
-		// Pick the right text to search for based on citation type:
-		// - comments: search for the anchored text (the text the comment is on)
-		// - tracked changes: search for the excerpt text in the document
-		// - body: search for the paragraph content
-		let searchText: string;
-		if (citation.targetType === "comment" && citation.anchoredText) {
-			searchText = citation.anchoredText;
-		} else if (citation.targetType === "track-change") {
-			searchText = citation.snippet
-				.replace(/^\[.*?\]:\s*/, "")
-				.replace(/^"(.*)"$/, "$1");
-		} else {
-			searchText = citation.snippet;
-		}
-		searchText = searchText.slice(0, 60).trim();
-
-		if (!searchText) return;
-
-		let cancelled = false;
-		const trySearch = () => {
-			if (cancelled || superdocRef.current !== sd) return;
-			const matches = sd.search(searchText);
-			if (matches?.length) {
-				sd.goToSearchResult(matches[0]);
-			}
-		};
-
-		// Retry with increasing delays to handle slow document loads
-		const t1 = setTimeout(trySearch, 300);
-		const t2 = setTimeout(trySearch, 1000);
-		const t3 = setTimeout(trySearch, 2500);
-		trySearch();
-
-		return () => {
-			cancelled = true;
-			clearTimeout(t1);
-			clearTimeout(t2);
-			clearTimeout(t3);
-		};
+		sd.scrollToElement(citation.targetId);
 	}, [citation, docFile]);
 
 	if (!documentId) {
