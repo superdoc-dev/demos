@@ -29,28 +29,10 @@ export type ExtractionResult = {
 	trackChanges: ExtractedTrackChange[];
 };
 
-/** Extract text from a node's inline content */
-function nodeText(node: any): string {
-	// Try direct text field first
-	if (node?.text) return node.text;
-	if (node?.bodyText) return node.bodyText;
-
-	// Extract from paragraph/heading inlines
-	const container = node?.paragraph ?? node?.heading;
-	if (!container?.inlines) return "";
-	return container.inlines
-		.map((inline: any) => inline?.run?.text ?? "")
-		.join("");
-}
-
-/** Extract blockId from a comment/trackChange target */
-function targetBlockId(item: any): string | undefined {
-	return item?.target?.segments?.[0]?.blockId;
-}
-
 /**
  * Extract structured content from a .docx using SuperDoc SDK.
  * Returns paragraphs/headings with nodeIds, comments, and tracked changes.
+ * All IDs are stable and work with superdoc.scrollToElement() in the browser.
  */
 export async function extractDocument(
 	filePath: string,
@@ -60,58 +42,36 @@ export async function extractDocument(
 
 	try {
 		const doc = await client.open({ doc: filePath });
+		// doc.extract() is available in superdoc >=1.26 / SDK >=0.7
+		// Cast until the published SDK types include it
+		const result = await (doc as any).extract();
 
-		const PARA_LIMIT = 2000;
-		const HEADING_LIMIT = 500;
-
-		const findOpts = (nodeType: string, limit: number) =>
-			({ type: "node", nodeType, includeNodes: true, limit }) as any;
-
-		const [parasResult, headingsResult] = await Promise.all([
-			doc.find(findOpts("paragraph", PARA_LIMIT)),
-			doc.find(findOpts("heading", HEADING_LIMIT)),
-		]);
-
-		if (parasResult.items.length === PARA_LIMIT) {
-			console.warn(
-				`[extract] Document has ${PARA_LIMIT}+ paragraphs — results may be incomplete`,
-			);
-		}
-
-		const blocks: ExtractedBlock[] = [
-			...headingsResult.items,
-			...parasResult.items,
-		]
-			.map((item: any) => ({
-				id: item.node?.id ?? item.address?.nodeId ?? "",
-				nodeType: item.address?.nodeType ?? "paragraph",
-				text: nodeText(item.node),
-			}))
-			.filter((b) => b.text.trim() && b.id);
-
-		// Extract comments
-		const commentsResult = await doc.comments.list();
-		const comments: ExtractedComment[] = commentsResult.items
-			.filter((item: any) => item.text)
-			.map((item: any) => ({
-				id: item.id,
-				text: item.text ?? "",
-				anchoredText: item.anchoredText,
-				creatorName: item.creatorName,
-				status: item.status,
-				blockId: targetBlockId(item),
+		const blocks: ExtractedBlock[] = result.blocks
+			.filter((b: any) => b.text.trim() && b.nodeId)
+			.map((b: any) => ({
+				id: b.nodeId,
+				nodeType: b.type,
+				text: b.text,
 			}));
 
-		// Extract tracked changes
-		const trackChangesResult = await doc.trackChanges.list();
-		const trackChanges: ExtractedTrackChange[] = trackChangesResult.items
-			.filter((item: any) => item.excerpt)
-			.map((item: any) => ({
-				id: item.id,
-				type: item.type,
-				author: item.author,
-				excerpt: item.excerpt,
-				blockId: targetBlockId(item),
+		const comments: ExtractedComment[] = result.comments
+			.filter((c: any) => c.text)
+			.map((c: any) => ({
+				id: c.entityId,
+				text: c.text ?? "",
+				anchoredText: c.anchoredText,
+				creatorName: c.author,
+				status: c.status,
+				blockId: c.blockId,
+			}));
+
+		const trackChanges: ExtractedTrackChange[] = result.trackedChanges
+			.filter((tc: any) => tc.excerpt)
+			.map((tc: any) => ({
+				id: tc.entityId,
+				type: tc.type,
+				author: tc.author,
+				excerpt: tc.excerpt,
 			}));
 
 		await doc.close();
