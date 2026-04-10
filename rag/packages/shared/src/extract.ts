@@ -42,9 +42,7 @@ export async function extractDocument(
 
 	try {
 		const doc = await client.open({ doc: filePath });
-		// doc.extract() is available in superdoc >=1.26 / SDK >=0.7
-		// Cast until the published SDK types include it
-		const result = await (doc as any).extract();
+		const result = await doc.extract();
 
 		const blocks: ExtractedBlock[] = result.blocks
 			.filter((b: any) => b.text.trim() && b.nodeId)
