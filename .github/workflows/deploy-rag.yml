@@ -82,6 +82,7 @@ jobs:
           cp -r esign/dist/* dist/esign/
           cp -r template-builder/dist/* dist/template-builder/
           cp dist-landing/index.html dist/
+          cp dist-landing/_redirects dist/
 
       # Deploy
       - run: bunx wrangler pages deploy dist --project-name=superdoc-demos --commit-dirty=true
