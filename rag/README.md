@@ -77,11 +77,11 @@ Open [http://localhost:3000](http://localhost:3000)
 
 Try these across the sample documents:
 
-- "What are the biggest risks to the beta launch?"
-- "Can healthcare companies join the beta?"
-- "How much will the NLQ feature cost to run?"
-- "What do customers think about anomaly detection?"
-- "What was decided about pricing?"
+- "What services does Nexus provide under the agreement?" (paragraph citation)
+- "What's the monthly fee for the Professional tier?" (table-row citation)
+- "What does the reviewer suggest about capping liability?" (comment citation)
+- "What changes have been proposed to the termination notice period?" (tracked-change citation)
+- "Which customers have confirmed participation in the beta launch?" (paragraph citation)
 
 ## Deploy
 

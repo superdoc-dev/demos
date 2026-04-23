@@ -11,11 +11,11 @@ type Message = {
 };
 
 const SAMPLE_QUESTIONS = [
-	"What are the biggest risks to the beta launch?",
-	"Can healthcare companies join the beta?",
-	"How much will the NLQ feature cost to run?",
-	"What do customers think about anomaly detection?",
-	"What was decided about pricing?",
+	"What services does Nexus provide under the agreement?",
+	"What's the monthly fee for the Professional tier?",
+	"What does the reviewer suggest about capping liability?",
+	"What changes have been proposed to the termination notice period?",
+	"Which customers have confirmed participation in the beta launch?",
 ];
 
 type Props = {

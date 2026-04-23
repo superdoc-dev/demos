@@ -2,7 +2,7 @@ export type Citation = {
 	index: number;
 	blockId: string;
 	targetId: string;
-	targetType: "block" | "comment" | "track-change";
+	targetType: "block" | "comment" | "track-change" | "table-row";
 	documentId: number;
 	filename: string;
 	snippet: string;

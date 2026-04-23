@@ -10,6 +10,7 @@ type Props = {
 
 const TYPE_LABELS: Record<string, string> = {
 	body: "paragraph",
+	table: "table row",
 	comment: "comment",
 	tracked_change: "change",
 };
