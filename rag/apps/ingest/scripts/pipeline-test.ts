@@ -1,24 +1,30 @@
 /**
- * End-to-end test of the RAG demo's extract + chunk pipeline against the
- * SuperDoc SD-2672 contract (paragraph-granular table extraction with
- * tableContext { tableOrdinal, rowIndex, columnIndex, rowspan, colspan }).
+ * End-to-end smoke test for the RAG demo's extract + chunk pipeline.
  *
- * Runs against:
- *  1. The customer's `a trivial report.docx` - the file that triggered the
- *     original bug report (Pages-exported table flattened into one string).
- *  2. Every sample doc shipped with the demo (`docs/nexus-*.docx`) - regression
- *     guard for non-table documents (lists, headings, tracked changes, etc.).
+ * Runs the SuperDoc SDK against every `.docx` fixture in `docs/`, feeds the
+ * output through the demo's chunker, and asserts the contract each chunk
+ * type depends on:
  *
- * Uses whichever @superdoc-dev/cli is installed in the workspace, so make sure
- * `@superdoc-dev/cli` in apps/ingest/package.json is pinned to a version that
- * carries the table-aware extract.
+ *   - Every block has a truthy nodeId (so `scrollToElement` has something
+ *     to resolve).
+ *   - No block is emitted with an opaque `nodeType: "table"` (the pre-fix
+ *     shape flattened whole tables into one block and broke per-cell
+ *     citations).
+ *   - Every table-cell block carries a complete `tableContext`
+ *     ({ tableOrdinal, rowIndex, columnIndex, rowspan, colspan }).
+ *   - Exactly one chunk is emitted per (tableOrdinal, rowIndex) pair that
+ *     has any non-empty text in it.
+ *   - Documents with no tables emit zero row chunks.
+ *
+ * Uses whichever `@superdoc-dev/cli` is installed in the workspace. Pin to
+ * a version that ships the paragraph-granular table extraction in
+ * `apps/ingest/package.json` before running.
  */
 import { readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { buildChunks, extractDocument } from "@docrag/shared";
 
-const CUSTOMER_FILE = "/Users/cpolive/Downloads/a trivial report.docx";
-const DEMO_DOCS_DIR = resolve(import.meta.dir, "../../../docs");
+const DOCS_DIR = resolve(import.meta.dir, "../../../docs");
 
 type Check = { name: string; ok: boolean; detail?: string };
 
@@ -93,13 +99,6 @@ async function run(file: string, label: string): Promise<Check[]> {
 		});
 	}
 
-	// Regression: pre-fix signature was concatenated cell text.
-	const concatenated = chunks.find((c) => /FlatsCurvesAngles/.test(c.content));
-	checks.push({
-		name: "no chunk contains concatenated table cell text",
-		ok: !concatenated,
-	});
-
 	// Print what a row chunk looks like for RAG embedding.
 	if (rowChunks.length > 0) {
 		console.log("\nSample row chunks:");
@@ -124,16 +123,11 @@ async function run(file: string, label: string): Promise<Check[]> {
 
 const allChecks: Array<{ label: string; checks: Check[] }> = [];
 
-allChecks.push({
-	label: "customer DOCX (Pages-exported, table)",
-	checks: await run(CUSTOMER_FILE, "a trivial report.docx"),
-});
-
-const sampleFiles = (await readdir(DEMO_DOCS_DIR))
+const sampleFiles = (await readdir(DOCS_DIR))
 	.filter((f) => f.endsWith(".docx"))
 	.sort();
 for (const f of sampleFiles) {
-	allChecks.push({ label: f, checks: await run(resolve(DEMO_DOCS_DIR, f), f) });
+	allChecks.push({ label: f, checks: await run(resolve(DOCS_DIR, f), f) });
 }
 
 console.log("\n\n========== RESULTS ==========");
