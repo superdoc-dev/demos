@@ -7,10 +7,10 @@
 		"build": "vite build"
 	},
 	"dependencies": {
-		"@superdoc-dev/template-builder": "^1.2.0",
+		"@superdoc-dev/template-builder": "^1.7.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
-		"superdoc": "^1.23.1"
+		"superdoc": "^1.29.0"
 	},
 	"devDependencies": {
 		"@types/react": "^19.0.0",

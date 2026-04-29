@@ -1,0 +1,12 @@
+{
+	"name": "demos-smoke-tests",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"test": "playwright test",
+		"test:install": "playwright install --with-deps chromium"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.49.0"
+	}
+}

@@ -1,0 +1,20 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:recommended", ":dependencyDashboard"],
+	"platformAutomerge": true,
+	"packageRules": [
+		{
+			"description": "Group all SuperDoc packages and auto-merge on green CI",
+			"matchPackageNames": ["superdoc", "@superdoc-dev/**"],
+			"groupName": "SuperDoc",
+			"automerge": true,
+			"minimumReleaseAge": "0 days"
+		},
+		{
+			"description": "Demos that ship from the @next channel follow the next dist-tag",
+			"matchPackageNames": ["superdoc", "@superdoc-dev/**"],
+			"matchFileNames": ["rag/**/package.json"],
+			"followTag": "next"
+		}
+	]
+}
