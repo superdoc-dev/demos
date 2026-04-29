@@ -8,7 +8,7 @@
 		"db:migrate": "psql $DATABASE_URL -f schema.sql"
 	},
 	"dependencies": {
-		"@anthropic-ai/sdk": "^0.30.0",
+		"@anthropic-ai/sdk": "^0.91.0",
 		"@docrag/shared": "workspace:*",
 		"@neondatabase/serverless": "^1.0.2"
 	},
