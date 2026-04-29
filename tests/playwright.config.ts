@@ -1,9 +1,14 @@
 import { defineConfig } from "@playwright/test";
 
-const demos = [
+const allDemos = [
 	{ name: "esign", cwd: "../esign", port: 4173 },
 	{ name: "template-builder", cwd: "../template-builder", port: 4174 },
 ];
+
+const filter = process.env.DEMO;
+const demos = filter
+	? allDemos.filter((d) => d.name === filter)
+	: allDemos;
 
 export default defineConfig({
 	testDir: ".",
