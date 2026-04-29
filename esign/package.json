@@ -7,12 +7,12 @@
 		"build": "vite build"
 	},
 	"dependencies": {
-		"@superdoc-dev/esign": "^2.6.0",
+		"@superdoc-dev/esign": "^2.6.1",
 		"pdfjs-dist": "^5.5.207",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"signature_pad": "^5.1.1",
-		"superdoc": "^1.29.0"
+		"superdoc": "^1.29.1"
 	},
 	"devDependencies": {
 		"@types/react": "^19.0.0",
