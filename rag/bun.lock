@@ -48,7 +48,7 @@
     "packages/shared": {
       "name": "@docrag/shared",
       "dependencies": {
-        "@superdoc-dev/sdk": "1.8.0-next.36",
+        "@superdoc-dev/sdk": "1.8.0-next.37",
       },
     },
   },
@@ -371,17 +371,17 @@
 
     "@superdoc-dev/cli-windows-x64": ["@superdoc-dev/cli-windows-x64@0.8.0-next.50", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-tQjUxSlm2ZyMj8KFWn6ID8o2tMUJvSGJ/xbPzf54W+/OWuYEbcbZxMCKFZc6mDYs/3Gb2Gvcr2u9rhsam47z9g=="],
 
-    "@superdoc-dev/sdk": ["@superdoc-dev/sdk@1.8.0-next.36", "", { "optionalDependencies": { "@superdoc-dev/sdk-darwin-arm64": "1.8.0-next.36", "@superdoc-dev/sdk-darwin-x64": "1.8.0-next.36", "@superdoc-dev/sdk-linux-arm64": "1.8.0-next.36", "@superdoc-dev/sdk-linux-x64": "1.8.0-next.36", "@superdoc-dev/sdk-windows-x64": "1.8.0-next.36" } }, "sha512-WdbEV1wLGU4/VXevcb45+VJ3/RZ0JaL/QAdDxWUxGLOqReWY8JIG3FsNTjZL45kdhK0Xh3cuNBDWL79NfE8YjQ=="],
+    "@superdoc-dev/sdk": ["@superdoc-dev/sdk@1.8.0-next.37", "", { "optionalDependencies": { "@superdoc-dev/sdk-darwin-arm64": "1.8.0-next.37", "@superdoc-dev/sdk-darwin-x64": "1.8.0-next.37", "@superdoc-dev/sdk-linux-arm64": "1.8.0-next.37", "@superdoc-dev/sdk-linux-x64": "1.8.0-next.37", "@superdoc-dev/sdk-windows-x64": "1.8.0-next.37" } }, "sha512-PNglmefOWpihoE8Tm36bOuuNNFvgeRuMNaarz+aiqGIB1l0zZewCqRz0EvjHwOS8AdIu4p3xiqhwl1kucnSkPQ=="],
 
-    "@superdoc-dev/sdk-darwin-arm64": ["@superdoc-dev/sdk-darwin-arm64@1.8.0-next.36", "", { "os": "darwin", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-JaQtnt7dgtwfS426LIRZi9S9mytCKNQ310dAncTNBLQssxWEzwNBUeNpr09/LI1R0pvJFFGWSduqHILynLVsDg=="],
+    "@superdoc-dev/sdk-darwin-arm64": ["@superdoc-dev/sdk-darwin-arm64@1.8.0-next.37", "", { "os": "darwin", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-mDCXN9yXRCaVfiONYkRTviFbk2i6doZH4G66SUm7AcMbwe+GshgQ034KxFO3RptmqgGnzzgBVgu6NPAUoDLg7w=="],
 
-    "@superdoc-dev/sdk-darwin-x64": ["@superdoc-dev/sdk-darwin-x64@1.8.0-next.36", "", { "os": "darwin", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-tgvljvrksgEbuL+/59iB93xVbimQ6FpODKm0B4zTDm8jSETLnFtyAi6FwSCGsdOvd9KPtS0drn1uQTHrpeMBHQ=="],
+    "@superdoc-dev/sdk-darwin-x64": ["@superdoc-dev/sdk-darwin-x64@1.8.0-next.37", "", { "os": "darwin", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-YZpLDvARka2PKZSgDUd9NCDL0TD1ej38ORRVDimdYdhx+CTIfE4WOmqTuaj56SLNXbxAorH1KlC/biqQgzV8sw=="],
 
-    "@superdoc-dev/sdk-linux-arm64": ["@superdoc-dev/sdk-linux-arm64@1.8.0-next.36", "", { "os": "linux", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-hDKmw0ny1FzSmqDKUj44mHAzowDK+vefB+F9NfoWSguQv5j/Gi2ONZqbk+uaxQLP/VSLjnpfeHCvCwfGhzkaqQ=="],
+    "@superdoc-dev/sdk-linux-arm64": ["@superdoc-dev/sdk-linux-arm64@1.8.0-next.37", "", { "os": "linux", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-nsHcAl3TsDFR2/cREyBy4jQiPwMexuBfW0FACSBLZmQS2T/1PSneR24Wscuzz6OICrKAEdzpJI9/gQCG7r0kEA=="],
 
-    "@superdoc-dev/sdk-linux-x64": ["@superdoc-dev/sdk-linux-x64@1.8.0-next.36", "", { "os": "linux", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-LRe6oLNRfsJZew+lR6MXPRqXeI9WiZ6pjFZxO1X4SksH5rjzW4BZyiTGVyzLJWr+dOd1EDNE2KTbvvFch/LWxA=="],
+    "@superdoc-dev/sdk-linux-x64": ["@superdoc-dev/sdk-linux-x64@1.8.0-next.37", "", { "os": "linux", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-qUK64uO2AMo5A7sKVhbF6atj+w+C7AFqohtctHV5PYOilrhFKb9Aym51A7oOeA1k/K4cXirOa1bcLi/uQQrB7Q=="],
 
-    "@superdoc-dev/sdk-windows-x64": ["@superdoc-dev/sdk-windows-x64@1.8.0-next.36", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-H9Il0p/BaTWodiMh9BAaBd7pkK/JOnQceB0Yxn5DpQQg/RT4mVizCBehk+bQwsOwjXnabCFPnpPPkHxHzQi66Q=="],
+    "@superdoc-dev/sdk-windows-x64": ["@superdoc-dev/sdk-windows-x64@1.8.0-next.37", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-Nu+4RZZm1fcxCt4eYsMTifrySKSnj1pyJ6QS8qg38WfTRCGURa3OXoGPJjAla1B6/PqCC6S0XzOF3z7YgAZVeg=="],
 
     "@types/babel__core": ["@types/babel__core@7.20.5", "", { "dependencies": { "@babel/parser": "^7.20.7", "@babel/types": "^7.20.7", "@types/babel__generator": "*", "@types/babel__template": "*", "@types/babel__traverse": "*" } }, "sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA=="],
 
