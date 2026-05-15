@@ -27,7 +27,7 @@
       "name": "@docrag/ingest",
       "dependencies": {
         "@docrag/shared": "workspace:*",
-        "@superdoc-dev/cli": "0.8.0-next.116",
+        "@superdoc-dev/cli": "0.8.0-next.117",
       },
     },
     "apps/web": {
@@ -48,7 +48,7 @@
     "packages/shared": {
       "name": "@docrag/shared",
       "dependencies": {
-        "@superdoc-dev/sdk": "1.8.0-next.99",
+        "@superdoc-dev/sdk": "1.8.0-next.100",
       },
     },
   },
@@ -359,29 +359,29 @@
 
     "@speed-highlight/core": ["@speed-highlight/core@1.2.15", "", {}, "sha512-BMq1K3DsElxDWawkX6eLg9+CKJrTVGCBAWVuHXVUV2u0s2711qiChLSId6ikYPfxhdYocLNt3wWwSvDiTvFabw=="],
 
-    "@superdoc-dev/cli": ["@superdoc-dev/cli@0.8.0-next.116", "", { "dependencies": { "@hocuspocus/provider": "^2.13.6", "@liveblocks/client": "^3.15.5", "@liveblocks/yjs": "^3.15.5", "fast-glob": "^3.3.3", "happy-dom": "^20.3.4", "ws": "^8.18.0", "y-websocket": "^3.0.0", "yjs": "^13.6.19" }, "optionalDependencies": { "@superdoc-dev/cli-darwin-arm64": "0.8.0-next.116", "@superdoc-dev/cli-darwin-x64": "0.8.0-next.116", "@superdoc-dev/cli-linux-arm64": "0.8.0-next.116", "@superdoc-dev/cli-linux-x64": "0.8.0-next.116", "@superdoc-dev/cli-windows-x64": "0.8.0-next.116" }, "bin": { "superdoc": "dist/index.js" } }, "sha512-RZAH4rKGjPi2Cwd0SrCzcGZv8L1YCsULS+xFf2pWrO0kkr67wkVzBR3MOmkjVfYnDu47+seXYJLUe0Opg4Co2Q=="],
+    "@superdoc-dev/cli": ["@superdoc-dev/cli@0.8.0-next.117", "", { "dependencies": { "@hocuspocus/provider": "^2.13.6", "@liveblocks/client": "^3.15.5", "@liveblocks/yjs": "^3.15.5", "fast-glob": "^3.3.3", "happy-dom": "^20.3.4", "ws": "^8.18.0", "y-websocket": "^3.0.0", "yjs": "^13.6.19" }, "optionalDependencies": { "@superdoc-dev/cli-darwin-arm64": "0.8.0-next.117", "@superdoc-dev/cli-darwin-x64": "0.8.0-next.117", "@superdoc-dev/cli-linux-arm64": "0.8.0-next.117", "@superdoc-dev/cli-linux-x64": "0.8.0-next.117", "@superdoc-dev/cli-windows-x64": "0.8.0-next.117" }, "bin": { "superdoc": "dist/index.js" } }, "sha512-v/qbdscjL1vRzUi3PuUDS4S6h8zkO8rrITIPm9OrC8YBUaqDFGNE8kFLBAEiz/LBnopmDLF2IwHpgKabRj3pKg=="],
 
-    "@superdoc-dev/cli-darwin-arm64": ["@superdoc-dev/cli-darwin-arm64@0.8.0-next.116", "", { "os": "darwin", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-8CeqTdOMjOBOi62hVk5oU6cgBqRaIf6Syk0fVYS0sVofcWvQqDosbLifqcvkpM6ChC7PuVxR39s97B52KbnqHg=="],
+    "@superdoc-dev/cli-darwin-arm64": ["@superdoc-dev/cli-darwin-arm64@0.8.0-next.117", "", { "os": "darwin", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-1ImnexghsZVAoGIqvU7OyBLtASMMaYhNR6ULQkhNguXyuZjU7BfBnr7213lhptvZrdC/8DHpdkwXTQj3EFexFg=="],
 
-    "@superdoc-dev/cli-darwin-x64": ["@superdoc-dev/cli-darwin-x64@0.8.0-next.116", "", { "os": "darwin", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-4X8xQ9BdHVuw4zO2cxM4RQxtV6zED/23YY4C2SYng4XAbQQJtKIq2CXJdlTk4D+ulDNWaj5IEV6iIJTXAWhcAQ=="],
+    "@superdoc-dev/cli-darwin-x64": ["@superdoc-dev/cli-darwin-x64@0.8.0-next.117", "", { "os": "darwin", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-FkX8zHcuCPq8dDFeE0OvJP0RTp+Ck5pB3J4a7/s2oG1pshe2Pf9Ugnh/bHNZvZCWz6T7Jf8m2iW/HbEzTHVoRA=="],
 
-    "@superdoc-dev/cli-linux-arm64": ["@superdoc-dev/cli-linux-arm64@0.8.0-next.116", "", { "os": "linux", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-MVJhzim/hnacPJplnOnmhF6IryFGC4+DMGDFX9y6EAYxuls3k9SzLKJkZ/dxEy/dEOYbuSSzxQigxT5+6cuz+A=="],
+    "@superdoc-dev/cli-linux-arm64": ["@superdoc-dev/cli-linux-arm64@0.8.0-next.117", "", { "os": "linux", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-ZDaq8dRKfX3Otj/1A+2b5ihkeQ5UIciLTqzXPZCtOccb7gsQvkrr2O2WSdn9DY8xWEPl6SP5QTBIRB1eRgvXVg=="],
 
-    "@superdoc-dev/cli-linux-x64": ["@superdoc-dev/cli-linux-x64@0.8.0-next.116", "", { "os": "linux", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-kwFqi16CqCaxQsrIgOtaEcoICQVkiNiwP1G0E9HL7eWc40TL+Yxl0KS2Efa2H1NwEvJRDbd+CYPVMoxyCWLUBg=="],
+    "@superdoc-dev/cli-linux-x64": ["@superdoc-dev/cli-linux-x64@0.8.0-next.117", "", { "os": "linux", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-jV1V3jz6NSoYQ8HU6h8AVmCN1WM1wAlpiTRsQMbY8B791LJCGAsvDZZbtaXoNamHM+rS+DEK8GQFDLoQoiZ1mQ=="],
 
-    "@superdoc-dev/cli-windows-x64": ["@superdoc-dev/cli-windows-x64@0.8.0-next.116", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-1SC1POai7wUWb+4A3ybYDPoaAZiH3vV/cSDkRzfHX6lMcHK5GQmXV1TjogpL/4uQnuc0EostsbfDACP17c0tQQ=="],
+    "@superdoc-dev/cli-windows-x64": ["@superdoc-dev/cli-windows-x64@0.8.0-next.117", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-kDrF2r8/DvvIY78wQRFc6+CL4Q9OmnAqmC+/9ipX3Clzh4cJJ7EhxO5bMJol9OD2H7lUhJcQc/11LSK3GLJYjw=="],
 
-    "@superdoc-dev/sdk": ["@superdoc-dev/sdk@1.8.0-next.99", "", { "optionalDependencies": { "@superdoc-dev/sdk-darwin-arm64": "1.8.0-next.99", "@superdoc-dev/sdk-darwin-x64": "1.8.0-next.99", "@superdoc-dev/sdk-linux-arm64": "1.8.0-next.99", "@superdoc-dev/sdk-linux-x64": "1.8.0-next.99", "@superdoc-dev/sdk-windows-x64": "1.8.0-next.99" } }, "sha512-Bk7flPlFBR8x1EcCHQsY7hgzWrciFM4wSOFTtuXLHRODzG/FiOeUA9tVhpiVKKs07otKw2pfjg6OOntl6eZqYg=="],
+    "@superdoc-dev/sdk": ["@superdoc-dev/sdk@1.8.0-next.100", "", { "optionalDependencies": { "@superdoc-dev/sdk-darwin-arm64": "1.8.0-next.100", "@superdoc-dev/sdk-darwin-x64": "1.8.0-next.100", "@superdoc-dev/sdk-linux-arm64": "1.8.0-next.100", "@superdoc-dev/sdk-linux-x64": "1.8.0-next.100", "@superdoc-dev/sdk-windows-x64": "1.8.0-next.100" } }, "sha512-CCXZ3tLqvvyQiXhm0zFps8qeKPJ3Qfr/fdG4U4fsXeXsWhSn3/VM3BmxfVYKN7vvf5yM7tELVabQiRrnrvJ8mQ=="],
 
-    "@superdoc-dev/sdk-darwin-arm64": ["@superdoc-dev/sdk-darwin-arm64@1.8.0-next.99", "", { "os": "darwin", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-DCg1kCXigFwYzszN3wsKhmonbHTZeXE1maq/G1XqqHacZIO4oyNvL1jY2KRMjHgRAIgHZT118WYIXMrAt+02iw=="],
+    "@superdoc-dev/sdk-darwin-arm64": ["@superdoc-dev/sdk-darwin-arm64@1.8.0-next.100", "", { "os": "darwin", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-GWVm6Q1tjyI4g4WGV6KTX7revRVXY8UmFjYcR1EVBoVzabpiZYHcc+kBnJLm9F+aDlx36YGdu/KZnWtG9JQV5Q=="],
 
-    "@superdoc-dev/sdk-darwin-x64": ["@superdoc-dev/sdk-darwin-x64@1.8.0-next.99", "", { "os": "darwin", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-cWpPlQnkazWpCtU7ZfkmKNkMvJSbq941utr5NVGZtG6EgAFXk771VqtZwXmu2yGmjNCu1ASvSV8mozSKyOY/+w=="],
+    "@superdoc-dev/sdk-darwin-x64": ["@superdoc-dev/sdk-darwin-x64@1.8.0-next.100", "", { "os": "darwin", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-aBA6tGdu5LuMJMTyo6BxGXl4vXB+s8SWquvW2M4gzQia97HbjQ2eFtfTx/TnUb989RzDuRNfe3uKsdLkUL0P2g=="],
 
-    "@superdoc-dev/sdk-linux-arm64": ["@superdoc-dev/sdk-linux-arm64@1.8.0-next.99", "", { "os": "linux", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-O1REJHmr6cFfLmRzNjihznkE2SdkPTFIvlS8JzUNEGqli7tF1uIoB7F8D24TCQaviqLAP57B6ZQRauLkbIULcg=="],
+    "@superdoc-dev/sdk-linux-arm64": ["@superdoc-dev/sdk-linux-arm64@1.8.0-next.100", "", { "os": "linux", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-aQ+XG86CRQc6qwDnzFX6pY7u7KaK4LMtpUba4pkQnUNtt72J3cLlR8L9hJ+xb5Ces4+AlhaSmEI3e3ufVnU6fg=="],
 
-    "@superdoc-dev/sdk-linux-x64": ["@superdoc-dev/sdk-linux-x64@1.8.0-next.99", "", { "os": "linux", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-6uwHDgZWabB/92GxBwN+zTpkfJVAeRylJxVB749hwKayg7l29UR1qdBGjoMlnulNNqfWIj5KHhPocDqE1K9HeQ=="],
+    "@superdoc-dev/sdk-linux-x64": ["@superdoc-dev/sdk-linux-x64@1.8.0-next.100", "", { "os": "linux", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-7tEUEdkX0nBlbl/kZBdGux6SjADW9wCJKWbWrUlzMD6I4Cf289HX3IVoYHSeKF+c1PnnX2oCbP2Np8Lawx5GnQ=="],
 
-    "@superdoc-dev/sdk-windows-x64": ["@superdoc-dev/sdk-windows-x64@1.8.0-next.99", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-+ORV0zO8EKCqtb9TgFlzvcW9JFKfbbfCqTk9s3S4++d4QD1mBi7dniEFcpiZm3ccXYCOlSj+XwcGzMnAPB2Kmw=="],
+    "@superdoc-dev/sdk-windows-x64": ["@superdoc-dev/sdk-windows-x64@1.8.0-next.100", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-WMAvennk670Cdphq9r4afrlKOHKoYEvptTrydX5yW8/YQhX8rVtryo4h8SzEhuoaBzgsdHX5x5UzAEGh2Fsraw=="],
 
     "@types/babel__core": ["@types/babel__core@7.20.5", "", { "dependencies": { "@babel/parser": "^7.20.7", "@babel/types": "^7.20.7", "@types/babel__generator": "*", "@types/babel__template": "*", "@types/babel__traverse": "*" } }, "sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA=="],
 
