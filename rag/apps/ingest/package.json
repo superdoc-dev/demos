@@ -8,6 +8,6 @@
 	},
 	"dependencies": {
 		"@docrag/shared": "workspace:*",
-		"@superdoc-dev/cli": "0.12.0-next.1"
+		"@superdoc-dev/cli": "0.12.0-next.4"
 	}
 }
