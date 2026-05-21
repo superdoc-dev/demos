@@ -27,7 +27,7 @@
       "name": "@docrag/ingest",
       "dependencies": {
         "@docrag/shared": "workspace:*",
-        "@superdoc-dev/cli": "0.12.0-next.6",
+        "@superdoc-dev/cli": "0.12.0-next.9",
       },
     },
     "apps/web": {
@@ -35,7 +35,7 @@
       "dependencies": {
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
-        "superdoc": "1.35.0-next.4",
+        "superdoc": "1.35.0-next.7",
       },
       "devDependencies": {
         "@types/react": "^19.0.0",
@@ -48,7 +48,7 @@
     "packages/shared": {
       "name": "@docrag/shared",
       "dependencies": {
-        "@superdoc-dev/sdk": "1.11.0-next.8",
+        "@superdoc-dev/sdk": "1.11.0-next.11",
       },
     },
   },
@@ -359,29 +359,29 @@
 
     "@speed-highlight/core": ["@speed-highlight/core@1.2.15", "", {}, "sha512-BMq1K3DsElxDWawkX6eLg9+CKJrTVGCBAWVuHXVUV2u0s2711qiChLSId6ikYPfxhdYocLNt3wWwSvDiTvFabw=="],
 
-    "@superdoc-dev/cli": ["@superdoc-dev/cli@0.12.0-next.6", "", { "dependencies": { "@hocuspocus/provider": "^2.13.6", "@liveblocks/client": "^3.15.5", "@liveblocks/yjs": "^3.15.5", "fast-glob": "^3.3.3", "happy-dom": "^20.3.4", "ws": "^8.18.0", "y-websocket": "^3.0.0", "yjs": "^13.6.19" }, "optionalDependencies": { "@superdoc-dev/cli-darwin-arm64": "0.12.0-next.6", "@superdoc-dev/cli-darwin-x64": "0.12.0-next.6", "@superdoc-dev/cli-linux-arm64": "0.12.0-next.6", "@superdoc-dev/cli-linux-x64": "0.12.0-next.6", "@superdoc-dev/cli-windows-x64": "0.12.0-next.6" }, "bin": { "superdoc": "dist/index.js" } }, "sha512-BhlQ04hlUiAfAmKdmsq/Q8utpxw5cMHkhmlhebMsP13f8Lk/e3C1Z/qz3iSPrx0qYkGv+IiMIPilACXfKyqfqQ=="],
+    "@superdoc-dev/cli": ["@superdoc-dev/cli@0.12.0-next.9", "", { "dependencies": { "@hocuspocus/provider": "^2.13.6", "@liveblocks/client": "^3.15.5", "@liveblocks/yjs": "^3.15.5", "fast-glob": "^3.3.3", "happy-dom": "^20.3.4", "ws": "^8.18.0", "y-websocket": "^3.0.0", "yjs": "^13.6.19" }, "optionalDependencies": { "@superdoc-dev/cli-darwin-arm64": "0.12.0-next.9", "@superdoc-dev/cli-darwin-x64": "0.12.0-next.9", "@superdoc-dev/cli-linux-arm64": "0.12.0-next.9", "@superdoc-dev/cli-linux-x64": "0.12.0-next.9", "@superdoc-dev/cli-windows-x64": "0.12.0-next.9" }, "bin": { "superdoc": "dist/index.js" } }, "sha512-0S33ZqMh+eYk/69FzW+j/Q9k2hTKi04AgWpiLCvEydKiFUnHuyd3KcQI3stHuYT2MJAtnaHFhXstPpeKbknkLA=="],
 
-    "@superdoc-dev/cli-darwin-arm64": ["@superdoc-dev/cli-darwin-arm64@0.12.0-next.6", "", { "os": "darwin", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-oi4j/PJzpMjaFIMg+XPivTNqAJGByEbzZ7s/jsOTLWbBqea8AfF6XinaAg1QTZ9oqMxszpip6YTxoUeRmRxS9Q=="],
+    "@superdoc-dev/cli-darwin-arm64": ["@superdoc-dev/cli-darwin-arm64@0.12.0-next.9", "", { "os": "darwin", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-PDpWh6aIKHsC/H4ZqfSi9use0c7Uky1utgUOGPVrWdXvtweKaYBsLIG1Hb6zAnj1XUo5rcU1RV2VJ0Jbf9p0BQ=="],
 
-    "@superdoc-dev/cli-darwin-x64": ["@superdoc-dev/cli-darwin-x64@0.12.0-next.6", "", { "os": "darwin", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-iirD/ZnK3Elw/btTZgBU5R/J7IzYv7Zs+SafWRhk7GXwm2f3fzvsdYBkm3/dDr8eaMT6B+35vADjV0Q2kADj6A=="],
+    "@superdoc-dev/cli-darwin-x64": ["@superdoc-dev/cli-darwin-x64@0.12.0-next.9", "", { "os": "darwin", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-vNNGiJRi+tEaprM/GMuNPcWvfK8+1klgb263k2xqwMhl9U63crJj7OK2ui3fcDAmft7dcP2NLPe/xs7OMLIBbA=="],
 
-    "@superdoc-dev/cli-linux-arm64": ["@superdoc-dev/cli-linux-arm64@0.12.0-next.6", "", { "os": "linux", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-k0eV14nKBzIeo0ImOHqjJauE1hcpslDg44bJF3Hgg7XEjtl6cWTHFyNfuTK/BVtIRNJcJm4UXBEeEHHVP6qTFQ=="],
+    "@superdoc-dev/cli-linux-arm64": ["@superdoc-dev/cli-linux-arm64@0.12.0-next.9", "", { "os": "linux", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-uUhFEnl6AE9EmQPw/dxpHYj0OkSh4JxUtKfVyLkz2Lnpaa9fHQINrNt7JXpCl4u+tJCKbdeG975pd+rCCB8UKA=="],
 
-    "@superdoc-dev/cli-linux-x64": ["@superdoc-dev/cli-linux-x64@0.12.0-next.6", "", { "os": "linux", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-GYU2cfBYIQPl4YSVKyHDsLTI6hZ++v6fFWk1burVi2xpYCQx1SHbEBkLhpbZWnQAh2k6Yu1kwLT7VDZt7hTi8g=="],
+    "@superdoc-dev/cli-linux-x64": ["@superdoc-dev/cli-linux-x64@0.12.0-next.9", "", { "os": "linux", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-WM3QLjueo+pu4chAh3KDXpPttWFUqsCv76Glj3Dj7YMUr7oKDRvvCDL8f6IAK+sCJWf9Vv1wUCj4SQNhPcLy7w=="],
 
-    "@superdoc-dev/cli-windows-x64": ["@superdoc-dev/cli-windows-x64@0.12.0-next.6", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-ae1IhulYgt+A2HNEpzfZIc/OHo+uDsteGnYujpiBOlRSvVTnBdP0319VMLenmkoc/swZtav/8M6RreLgd9R2uQ=="],
+    "@superdoc-dev/cli-windows-x64": ["@superdoc-dev/cli-windows-x64@0.12.0-next.9", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-WHRX/U00j5uyuvS0ijrKSwQFKkV8nIMHcUZpm8e3a0O1XPlZcTeHJ5NiVPm/+xVA2R8ySCLfBkgH4jMvhMGRWw=="],
 
-    "@superdoc-dev/sdk": ["@superdoc-dev/sdk@1.11.0-next.8", "", { "optionalDependencies": { "@superdoc-dev/sdk-darwin-arm64": "1.11.0-next.8", "@superdoc-dev/sdk-darwin-x64": "1.11.0-next.8", "@superdoc-dev/sdk-linux-arm64": "1.11.0-next.8", "@superdoc-dev/sdk-linux-x64": "1.11.0-next.8", "@superdoc-dev/sdk-windows-x64": "1.11.0-next.8" } }, "sha512-fE1GjGVTC47VU+trRiwALA+NqCRV93/LBgfSHlkHz0W9+bhqKpRdSAwDwGXlHkZu1zAto9Kl7p8gh1o6KGleng=="],
+    "@superdoc-dev/sdk": ["@superdoc-dev/sdk@1.11.0-next.11", "", { "optionalDependencies": { "@superdoc-dev/sdk-darwin-arm64": "1.11.0-next.11", "@superdoc-dev/sdk-darwin-x64": "1.11.0-next.11", "@superdoc-dev/sdk-linux-arm64": "1.11.0-next.11", "@superdoc-dev/sdk-linux-x64": "1.11.0-next.11", "@superdoc-dev/sdk-windows-x64": "1.11.0-next.11" } }, "sha512-qJ9EYDY78z29RjkXZobgVw8i6AnDu2YnQiKhNnD7uCm8G7/SX6dbVzQeJpWpey/McvkGqmdNo5rTLKEcDNW5HQ=="],
 
-    "@superdoc-dev/sdk-darwin-arm64": ["@superdoc-dev/sdk-darwin-arm64@1.11.0-next.8", "", { "os": "darwin", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-4O9PgS5D1Yn8QOJJK0XJhM+jAYxFUBjEVBEn5impuaK6cbD0lS/dSnqxESfm1pJRpP70dLTaNBoPWDLMHMTHIw=="],
+    "@superdoc-dev/sdk-darwin-arm64": ["@superdoc-dev/sdk-darwin-arm64@1.11.0-next.11", "", { "os": "darwin", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-wLnJ59N1+6/NWM1t40GjBrtrN/T6wZggGPeLvS6L5jeYTNvP7rah1Ws4ev2yyemvq+WrtZ4u3dN9MXncXl/NOA=="],
 
-    "@superdoc-dev/sdk-darwin-x64": ["@superdoc-dev/sdk-darwin-x64@1.11.0-next.8", "", { "os": "darwin", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-WT61RZKmVmBLBzh0sYnybnSkE1gXLiuNlk5iPnVmy0gLZe5jp0oEOa1/j58MAFvvtyE/hhpYeWD+RvTlrYUdCA=="],
+    "@superdoc-dev/sdk-darwin-x64": ["@superdoc-dev/sdk-darwin-x64@1.11.0-next.11", "", { "os": "darwin", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-wqmFLZcC0yCcwEDR2BgFHxaxEQb5DE3P3E3zK/5bTcelpKY14j/9NxhaOXJGuFvN0U/rtYYiYMGDwsWenZuCOA=="],
 
-    "@superdoc-dev/sdk-linux-arm64": ["@superdoc-dev/sdk-linux-arm64@1.11.0-next.8", "", { "os": "linux", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-oKlRQ6lTJNaYztyWfJM5r93MnD8IOLmAX9PyC1GOX8lUnz5m2bHRK347D0yDYQYDH1CecsJicBhTml28mSANUA=="],
+    "@superdoc-dev/sdk-linux-arm64": ["@superdoc-dev/sdk-linux-arm64@1.11.0-next.11", "", { "os": "linux", "cpu": "arm64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-hMHOeonKQD9CsPpF0FOph3kb53vLsZdeNPiV/fThqNFLvdRmHCCdmcViDxtaDU1ThAz1l+IVpCwikuoUg1P2Fg=="],
 
-    "@superdoc-dev/sdk-linux-x64": ["@superdoc-dev/sdk-linux-x64@1.11.0-next.8", "", { "os": "linux", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-K+uaSp2ZKo5knj5X7VKd3qfDfvHjRXrDUy6rrj6F/0Qe0gvy2E9Q2DFklYAVan1y6ssF92VDWke0rGd2TGj/3w=="],
+    "@superdoc-dev/sdk-linux-x64": ["@superdoc-dev/sdk-linux-x64@1.11.0-next.11", "", { "os": "linux", "cpu": "x64", "bin": { "superdoc": "bin/superdoc" } }, "sha512-NCpEWTPAs0T88Xi7K4yG3qO8Y2yky5HHV4JI3Ucajk88VP83RUlsMiFHX0Z3beCgvDku0h1hgamoghiGOhPPYA=="],
 
-    "@superdoc-dev/sdk-windows-x64": ["@superdoc-dev/sdk-windows-x64@1.11.0-next.8", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-mzWApzkSIKI1Y+T3he8migHPt9u9w3+tfjy1E4Zb+3u74ELxdMwumH5msX+1b6Or3jX0EsVLEZ2z3j/MbVboww=="],
+    "@superdoc-dev/sdk-windows-x64": ["@superdoc-dev/sdk-windows-x64@1.11.0-next.11", "", { "os": "win32", "cpu": "x64", "bin": { "superdoc": "bin/superdoc.exe" } }, "sha512-mj+0M+vBAcqGqh2xk/6AFvWaJ1dIaeuDhFQBFIEmOD8bGZHMb2Yc2dU4vOx5iNwUVE63hncUfo3tFE+XhH2VrA=="],
 
     "@types/babel__core": ["@types/babel__core@7.20.5", "", { "dependencies": { "@babel/parser": "^7.20.7", "@babel/types": "^7.20.7", "@types/babel__generator": "*", "@types/babel__template": "*", "@types/babel__traverse": "*" } }, "sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA=="],
 
@@ -691,7 +691,7 @@
 
     "source-map-js": ["source-map-js@1.2.1", "", {}, "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA=="],
 
-    "superdoc": ["superdoc@1.35.0-next.4", "", { "dependencies": { "@types/mdast": "^4.0.4", "@types/ws": "^8.18.1", "buffer-crc32": "^1.0.0", "eventemitter3": "^5.0.1", "jsdom": "^27.3.0", "konva": "^10.2.0", "pinia": "^2.1.7", "rollup-plugin-copy": "^3.5.0", "uuid": "^9.0.1", "vue": "^3.5.0", "y-websocket": "^3.0.0" }, "peerDependencies": { "@hocuspocus/provider": "^2.13.6", "pdfjs-dist": "^5.4.296", "prosemirror-model": "^1.25.0", "prosemirror-state": "^1.4.0", "prosemirror-transform": "^1.9.0", "prosemirror-view": "^1.33.0", "react": ">=16.8.0", "y-prosemirror": "^1.3.7", "yjs": "^13.6.19" }, "optionalPeers": ["pdfjs-dist", "prosemirror-model", "prosemirror-state", "prosemirror-transform", "prosemirror-view", "react"] }, "sha512-tBmb/4K13/F5yRfzKfjn4bieQcBdtq0nv6e1PuzN7vd0xCBKmFiPWfk4b4DRHMSB642yDsCZJkeppEkltTx8CA=="],
+    "superdoc": ["superdoc@1.35.0-next.7", "", { "dependencies": { "@types/mdast": "^4.0.4", "@types/ws": "^8.18.1", "buffer-crc32": "^1.0.0", "eventemitter3": "^5.0.1", "jsdom": "^27.3.0", "konva": "^10.2.0", "pinia": "^2.1.7", "rollup-plugin-copy": "^3.5.0", "uuid": "^9.0.1", "vue": "^3.5.0", "y-websocket": "^3.0.0" }, "peerDependencies": { "@hocuspocus/provider": "^2.13.6", "pdfjs-dist": "^5.4.296", "prosemirror-model": "^1.25.0", "prosemirror-state": "^1.4.0", "prosemirror-transform": "^1.9.0", "prosemirror-view": "^1.33.0", "react": ">=16.8.0", "y-prosemirror": "^1.3.7", "yjs": "^13.6.19" }, "optionalPeers": ["pdfjs-dist", "prosemirror-model", "prosemirror-state", "prosemirror-transform", "prosemirror-view", "react"] }, "sha512-/vDceSJzqfeDkjsxSpcb1T1bFjtv9qvV/x6iwnMDcoXytdpcvq24kpU2wuax3iFIyrMRBY/wr+15MbgD7XmwXg=="],
 
     "supports-color": ["supports-color@10.2.2", "", {}, "sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g=="],
 
