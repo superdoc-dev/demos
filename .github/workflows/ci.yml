@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
-      - run: bun install
+      - run: bun install --frozen-lockfile
       - run: bunx biome check .
       - run: bunx tsc --noEmit
 
@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
-      - run: bun install
+      - run: bun install --frozen-lockfile
       - run: bunx vite build
 
   build-rag-web:
@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
-      - run: bun install
+      - run: bun install --frozen-lockfile
         working-directory: rag
       - run: bunx vite build
         working-directory: rag/apps/web
@@ -61,7 +61,7 @@ jobs:
       - name: Build demo
         working-directory: ${{ matrix.demo }}
         run: |
-          bun install
+          bun install --frozen-lockfile
           bunx vite build
       - name: Install Playwright
         working-directory: tests

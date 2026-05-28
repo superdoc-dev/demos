@@ -13,8 +13,13 @@
 		{
 			"description": "Demos that ship from the @next channel follow the next dist-tag",
 			"matchPackageNames": ["superdoc", "@superdoc-dev/**"],
-			"matchFileNames": ["rag/**/package.json"],
-			"followTag": "next"
+			"matchFileNames": [
+				"esign/package.json",
+				"template-builder/package.json",
+				"rag/**/package.json"
+			],
+			"followTag": "next",
+			"rangeStrategy": "pin"
 		}
 	]
 }

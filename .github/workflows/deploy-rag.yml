@@ -4,11 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths:
-      - "rag/**"
-      - "esign/**"
-      - "template-builder/**"
-      - ".github/workflows/deploy-rag.yml"
 
 env:
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -24,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
-      - run: bun install
+      - run: bun install --frozen-lockfile
       - run: bunx biome check .
       - run: bunx tsc --noEmit
 
@@ -41,7 +36,7 @@ jobs:
         with:
           node-version: 22
       - uses: oven-sh/setup-bun@v2
-      - run: bun install
+      - run: bun install --frozen-lockfile
       - run: bunx wrangler deploy
         working-directory: rag/apps/api
 
@@ -57,7 +52,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
 
       # Build DocRAG
-      - run: bun install
+      - run: bun install --frozen-lockfile
         working-directory: rag
       - run: bunx vite build
         working-directory: rag/apps/web
@@ -66,7 +61,7 @@ jobs:
           BASE_PATH: /docrag/
 
       # Build eSign
-      - run: bun install
+      - run: bun install --frozen-lockfile
         working-directory: esign
       - run: bunx vite build
         working-directory: esign
@@ -74,7 +69,7 @@ jobs:
           BASE_PATH: /esign/
 
       # Build Template Builder
-      - run: bun install
+      - run: bun install --frozen-lockfile
         working-directory: template-builder
       - run: bunx vite build
         working-directory: template-builder
