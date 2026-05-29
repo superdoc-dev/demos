@@ -12,10 +12,10 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "signature_pad": "^5.1.1",
-    "superdoc": "1.38.0-next.9"
+    "superdoc": "1.38.0-next.14"
   },
   "overrides": {
-    "superdoc": "1.38.0-next.9"
+    "superdoc": "1.38.0-next.14"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
