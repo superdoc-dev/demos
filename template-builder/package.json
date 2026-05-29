@@ -10,10 +10,10 @@
     "@superdoc-dev/template-builder": "1.12.0-next.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "superdoc": "1.38.0-next.5"
+    "superdoc": "1.38.0-next.6"
   },
   "overrides": {
-    "superdoc": "1.38.0-next.5"
+    "superdoc": "1.38.0-next.6"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
