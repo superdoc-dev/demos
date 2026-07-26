@@ -5,7 +5,7 @@
     "": {
       "name": "superdoc-esign-demo",
       "dependencies": {
-        "@superdoc-dev/esign": "2.7.1-next.1",
+        "@superdoc-dev/esign": "2.7.3-next.1",
         "pdfjs-dist": "^5.5.207",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
@@ -235,7 +235,7 @@
 
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.60.0", "", { "os": "win32", "cpu": "x64" }, "sha512-PrsWNQ8BuE00O3Xsx3ALh2Df8fAj9+cvvX9AIA6o4KpATR98c9mud4XtDWVvsEuyia5U4tVSTKygawyJkjm60w=="],
 
-    "@superdoc-dev/esign": ["@superdoc-dev/esign@2.7.1-next.1", "", { "dependencies": { "superdoc": "^1.33.1" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-lljnF9B8aQ/X6SumiUubsR5MScD57SWOLMI5swuH4q1yVJoQ9NyQMx/XvaGmRZJoNNMmP1vp802T0NumJAy4xw=="],
+    "@superdoc-dev/esign": ["@superdoc-dev/esign@2.7.3-next.1", "", { "dependencies": { "superdoc": "^1.33.1" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-tsK9mIg5k5Z6xL/5BNcsYWn5i5yvY9IHEfGA604tZlcaVRaJeXlHoDU+BjKnzkOfx7/b7VFmr1GECldvPLD3VQ=="],
 
     "@types/babel__core": ["@types/babel__core@7.20.5", "", { "dependencies": { "@babel/parser": "^7.20.7", "@babel/types": "^7.20.7", "@types/babel__generator": "*", "@types/babel__template": "*", "@types/babel__traverse": "*" } }, "sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA=="],
 

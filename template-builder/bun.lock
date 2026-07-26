@@ -5,7 +5,7 @@
     "": {
       "name": "superdoc-template-builder-demo",
       "dependencies": {
-        "@superdoc-dev/template-builder": "1.12.0-next.2",
+        "@superdoc-dev/template-builder": "1.12.2-next.1",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "superdoc": "1.39.0-next.5",
@@ -209,7 +209,7 @@
 
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.60.2", "", { "os": "win32", "cpu": "x64" }, "sha512-Nd/SgG27WoA9e+/TdK74KnHz852TLa94ovOYySo/yMPuTmpckK/jIF2jSwS3g7ELSKXK13/cVdmg1Z/DaCWKxA=="],
 
-    "@superdoc-dev/template-builder": ["@superdoc-dev/template-builder@1.12.0-next.2", "", { "dependencies": { "superdoc": "^1.33.1" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-l4Nete+7y1/2rLhHFxN5gDsroDHcN3jDM6roOlAhb3L0CriLw5zsfQL5X7IP+BSp8BuDnOtcWZn45rlpqICU/w=="],
+    "@superdoc-dev/template-builder": ["@superdoc-dev/template-builder@1.12.2-next.1", "", { "dependencies": { "superdoc": "^1.33.1" }, "peerDependencies": { "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-jBPkoDyJWcA97Znf4YiTrOIY/McuIkx5pgo0GxNs061ZxIkwJS7N67Cca61rRsQTzfGJOxEhvDb0ghJTjdfl2A=="],
 
     "@types/babel__core": ["@types/babel__core@7.20.5", "", { "dependencies": { "@babel/parser": "^7.20.7", "@babel/types": "^7.20.7", "@types/babel__generator": "*", "@types/babel__template": "*", "@types/babel__traverse": "*" } }, "sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA=="],
 
