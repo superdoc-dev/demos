@@ -6,6 +6,6 @@
 		".": "./src/index.ts"
 	},
 	"dependencies": {
-		"@superdoc-dev/sdk": "1.21.2-next.1"
+		"@superdoc-dev/sdk": "1.21.2-next.2"
 	}
 }
